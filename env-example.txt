@@ -1,0 +1,2 @@
+GOOGLE_SHEET_ID= (Please paste the ID from your Google Sheet URL here)
+GOOGLE_CLOUD_PROJECT_ID=gen-lang-client-0578854454
