@@ -1,5 +1,5 @@
-# Base image
-FROM node:18-alpine AS base
+# Base image - Node.js 20+ required for Next.js 16
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps

@@ -1,8 +1,38 @@
 'use client';
 import { motion } from 'framer-motion';
 
-export default function InfluencerStore({ companyName, productImages }: any) {
+interface Props {
+    companyName: string;
+    productImages?: { url: string }[];
+    vipId?: string;
+}
+
+export default function InfluencerStore({ companyName, productImages, vipId }: Props) {
     const displayImage = productImages?.[0]?.url || '/assets/images/default-premium-product.jpg';
+
+    const trackClick = async (buttonName: string) => {
+        try {
+            await fetch('/api/track-click', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    buttonName,
+                    companyName,
+                    vipId: vipId || companyName,
+                }),
+            });
+        } catch (error) {
+            console.error('Track click failed:', error);
+        }
+    };
+
+    const handleStartLineup = async () => {
+        await trackClick('Start Your Lineup');
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <section className="py-20 bg-white overflow-hidden">
@@ -14,7 +44,10 @@ export default function InfluencerStore({ companyName, productImages }: any) {
                     <p className="text-neutral-500 mb-8 leading-relaxed">
                         Stop promoting other brands. {companyName}&apos;s vision meets Irunica&apos;s technology. Your perfect lineup is ready. Launch your first drop.
                     </p>
-                    <button className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-gold-600 transition-colors">
+                    <button
+                        onClick={handleStartLineup}
+                        className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-gold-600 transition-colors"
+                    >
                         Start Your Lineup
                     </button>
                 </div>

@@ -11,17 +11,29 @@ const config: Config = {
             colors: {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
+                // K-Beauty 2025 Trend Palette
                 gold: {
-                    50: '#fffbeb',
-                    100: '#fef3c7',
-                    200: '#fde68a',
-                    300: '#fcd34d',
-                    400: '#fbbf24',
-                    500: '#f59e0b',
-                    600: '#d97706',
-                    700: '#b45309',
-                    800: '#92400e',
-                    900: '#78350f',
+                    // Re-mapped to "Luminous Champagne" (Less Orange, More Ethereal)
+                    DEFAULT: '#E3C89B',
+                    50: '#FAF7F2',
+                    100: '#F4EBD9',
+                    200: '#EADBC1', // Bisque-like
+                    300: '#E3C89B', // Key Champagne Gold
+                    400: '#D4B47D',
+                    500: '#C19D60', // Richer Gold
+                    600: '#9E7E44',
+                    700: '#7D6132',
+                    800: '#5F4824', // Mocha Like
+                    900: '#433217',
+                },
+                kbeauty: {
+                    base: '#FFFFFF', // Pure White
+                    sofly: '#F9F9F9', // Soft background
+                    peach: '#FFD1C9', // Soft Pastel Accent
+                    lavender: '#E6E6FA', // Ethereal Accent
+                    mint: '#D8F3DC', // Clean Accent
+                    mocha: '#8D7B68', // Warm Text
+                    charcoal: '#2D2D2D', // Sharp Text
                 }
             },
         },

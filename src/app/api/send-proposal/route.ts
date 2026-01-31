@@ -30,7 +30,7 @@ export async function POST(req: Request) {
             await transporter.sendMail({
                 from: `"Irunica Sales Team" <${ADMIN_EMAIL}>`,
                 to: email,
-                bcc: ADMIN_EMAIL, // BCC myself
+                bcc: 'sales@irunica.com',
                 subject: `[IRUNICA] Private Label Assets for ${companyName}`,
                 html: `
           <div style="font-family: sans-serif; color: #333;">

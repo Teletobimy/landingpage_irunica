@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getColorHistory } from '@/lib/fetch-color-history';
+import { SupportedLanguage } from '@/config/tld-language';
+import { getTranslations } from '@/locales/translations';
 
 // --- Animation Variants ---
 const containerVariants = {
@@ -34,7 +36,14 @@ const itemVariants = {
     })
 };
 
-export default function ColorAtelier({ trendData, category = '립메이크업' }: any) {
+interface Props {
+    trendData: any;
+    category?: string;
+    lang?: SupportedLanguage;
+}
+
+export default function ColorAtelier({ trendData, category = '립메이크업', lang = 'en' }: Props) {
+    const t = getTranslations(lang).colorAtelier;
     const [selectedColor, setSelectedColor] = useState<string | null>(null);
     const [historyData, setHistoryData] = useState<any[]>([]);
     const [isLoadingHistory, setIsLoadingHistory] = useState(false);
@@ -78,7 +87,7 @@ export default function ColorAtelier({ trendData, category = '립메이크업' }
                             K-Beauty Color Archive
                         </h3>
                         <h2 className="text-5xl font-light tracking-tighter">
-                            The <span className="font-serif italic">Atelier</span> Spectrum
+                            {t.title} <span className="font-serif italic">{t.titleBold}</span>
                         </h2>
                     </div>
                     <div className="text-right hidden md:block">

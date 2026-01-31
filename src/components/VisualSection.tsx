@@ -36,6 +36,7 @@ export default function VisualSection({ images, companyName }: VisualSectionProp
                         src={images[0].url}
                         alt="Hero Product"
                         fill
+                        unoptimized={images[0].url.startsWith('data:')}
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -105,6 +106,7 @@ function ImageSlot({ src, className }: { src: string; className?: string }) {
                 src={src}
                 alt="Visual"
                 fill
+                unoptimized={src.startsWith('data:')}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover hover:scale-105 transition-transform duration-500"
             />

@@ -2,8 +2,17 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SupportedLanguage } from '@/config/tld-language';
+import { getTranslations } from '@/locales/translations';
 
-export default function LeadCaptureFlow({ companyName, generatedImages }: any) {
+interface Props {
+    companyName: string;
+    generatedImages: any;
+    lang?: SupportedLanguage;
+}
+
+export default function LeadCaptureFlow({ companyName, generatedImages, lang = 'en' }: Props) {
+    const t = getTranslations(lang).leadCapture;
     const [step, setStep] = useState(1); // 1: Email, 2: Details, 3: Success
     const [email, setEmail] = useState('');
     const [details, setDetails] = useState({ name: '', phone: '', message: '' });
@@ -63,13 +72,13 @@ export default function LeadCaptureFlow({ companyName, generatedImages }: any) {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                         >
-                            <h2 className="text-2xl font-bold mb-4 text-center">Receive Your Custom Assets</h2>
+                            <h2 className="text-2xl font-bold mb-4 text-center">{t.title}</h2>
                             <p className="text-gray-400 text-center text-sm mb-8">
-                                Enter your email to instantly receive the <span className="text-gold-500">{companyName}</span> visual package.
+                                {t.subtitle.replace('the visual package.', '')} <span className="text-gold-500">{companyName}</span>
                             </p>
                             <div className="flex flex-col gap-3">
                                 <input
-                                    type="email" required placeholder="Business Email"
+                                    type="email" required placeholder={t.emailPlaceholder}
                                     className="w-full bg-black border border-white/10 px-6 py-4 rounded-xl outline-none focus:border-gold-500 transition-colors"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -79,11 +88,11 @@ export default function LeadCaptureFlow({ companyName, generatedImages }: any) {
                                     onClick={handleStep1}
                                     className="w-full bg-gold-500 hover:bg-gold-400 text-black font-black py-4 rounded-xl uppercase tracking-widest transition-colors shadow-lg shadow-gold-900/20"
                                 >
-                                    Download Assets
+                                    {t.downloadButton}
                                 </button>
                             </div>
                             <p className="text-center text-[10px] text-neutral-600 mt-4">
-                                * By clicking download, you agree to receive a one-time proposal PDF.
+                                {t.disclaimer}
                             </p>
                         </motion.div>
                     )}
@@ -96,28 +105,28 @@ export default function LeadCaptureFlow({ companyName, generatedImages }: any) {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                         >
-                            <h2 className="text-xl font-bold mb-2 text-gold-500">Assets Sent! ✓</h2>
+                            <h2 className="text-xl font-bold mb-2 text-gold-500">{t.assetsSent} ✓</h2>
                             <p className="text-gray-400 text-sm mb-8">
-                                While you check your inbox, leave your contact details for a priority consultation.
+                                {t.assetsSentDesc}
                             </p>
                             <form onSubmit={handleStep2} className="space-y-3">
                                 <input
-                                    type="text" required placeholder="Contact Name"
+                                    type="text" required placeholder={t.namePlaceholder}
                                     className="w-full bg-black border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-white/30"
                                     onChange={(e) => setDetails({ ...details, name: e.target.value })}
                                 />
                                 <input
-                                    type="tel" required placeholder="Phone Number / WhatsApp"
+                                    type="tel" required placeholder={t.phonePlaceholder}
                                     className="w-full bg-black border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-white/30"
                                     onChange={(e) => setDetails({ ...details, phone: e.target.value })}
                                 />
                                 <textarea
-                                    placeholder="Any specific requests? (e.g. MOQ, specific ingredients)"
+                                    placeholder={t.messagePlaceholder}
                                     className="w-full bg-black border border-white/10 px-6 py-4 rounded-xl text-sm h-24 resize-none outline-none focus:border-white/30"
                                     onChange={(e) => setDetails({ ...details, message: e.target.value })}
                                 />
                                 <button className="w-full bg-white hover:bg-gray-200 text-black font-bold py-4 rounded-xl uppercase text-xs tracking-widest transition-colors">
-                                    Complete Inquiry
+                                    {t.completeButton}
                                 </button>
                             </form>
                         </motion.div>
@@ -134,9 +143,9 @@ export default function LeadCaptureFlow({ companyName, generatedImages }: any) {
                             <div className="w-20 h-20 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <div className="text-gold-500 text-4xl">✓</div>
                             </div>
-                            <h2 className="text-2xl font-bold mb-2">You&apos;re All Set.</h2>
+                            <h2 className="text-2xl font-bold mb-2">{t.successTitle}</h2>
                             <p className="text-gray-400 text-sm max-w-xs mx-auto">
-                                Our team has received your inquiry and will direct-connect with you within 24 hours.
+                                {t.successDesc}
                             </p>
                         </motion.div>
                     )}

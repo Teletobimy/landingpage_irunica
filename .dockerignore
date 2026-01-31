@@ -1,0 +1,61 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Next.js
+.next
+out
+
+# Production
+build
+
+# Misc
+.DS_Store
+*.pem
+*.log
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Editor
+.idea
+.vscode
+*.swp
+*.swo
+
+# Scripts and tests (not needed for production)
+scripts/
+_ref_docs/
+*.test.ts
+*.test.tsx
+test-*.ts
+test-*.mjs
+
+# Service account files (use ADC in Cloud Run)
+service-account.json
+gen-lang-client-*.json
+automation-*.json
+
+# Claude
+.claude/

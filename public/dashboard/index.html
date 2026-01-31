@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irunica Email Sender</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+    </div>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-area">
+                    <h1>✨ Irunica Sender Elite</h1>
+                    <p class="subtitle">Premium B2B Lead Automation System</p>
+                </div>
+                <div class="header-buttons">
+                    <a href="https://docs.google.com/spreadsheets/d/1qm6TEvvvv2vFUhYunJZLeYDoxZoO3s4mdFn_PvnCVd8/edit"
+                        target="_blank" class="btn btn-secondary">
+                        📊 Sheets Control
+                    </a>
+                    <button id="global-refresh-btn" class="btn btn-primary" title="Refresh all data">
+                        🔄 Sync Data
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="pipeline">
+                <span class="tab-icon">📊</span>
+                <span class="tab-text">대시보드</span>
+            </button>
+            <button class="tab-btn" data-tab="smartlead">
+                <span class="tab-icon">🚀</span>
+                <span class="tab-text">Smartlead 발송</span>
+            </button>
+            <button class="tab-btn" data-tab="research">
+                <span class="tab-icon">🔍</span>
+                <span class="tab-text">AI 회사조사</span>
+            </button>
+            <button class="tab-btn" data-tab="aigen">
+                <span class="tab-icon">✍️</span>
+                <span class="tab-text">AI 본문생성</span>
+            </button>
+        </nav>
+
+        <!-- Tab Content: Pipeline Dashboard -->
+        <main class="main tab-content active" id="tab-pipeline">
+            <!-- Pipeline Control Bar -->
+            <div class="pipeline-control-bar">
+                <div class="pipeline-control-left">
+                    <span class="pipeline-label">파이프라인</span>
+                    <span id="pipeline-status-indicator" class="pipeline-status-indicator waiting">
+                        <span class="status-dot"></span>
+                        <span class="status-text">대기중</span>
+                    </span>
+                </div>
+                <div class="pipeline-control-right">
+                    <button id="pipeline-start-btn" class="btn btn-pipeline-start">
+                        <span class="btn-icon">▶</span>
+                        <span class="btn-text">파이프라인 시작</span>
+                    </button>
+                    <button id="pipeline-stop-btn" class="btn btn-pipeline-stop" style="display: none;">
+                        <span class="btn-icon">■</span>
+                        <span class="btn-text">중지</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Header -->
+            <section class="dashboard-header-section">
+                <h2>📊 자동화 대시보드 <span id="pl-status-badge" class="status-badge waiting">대기 중</span></h2>
+                <p class="dashboard-subtitle">매일 오전 9시 자동 실행 | 마지막 실행: <span id="pl-last-run">-</span></p>
+            </section>
+
+            <!-- Pipeline Workflow Visualization -->
+            <section class="pipeline-workflow-section glass-panel">
+                <h3>파이프라인 워크플로우</h3>
+                <div class="pipeline-canvas">
+                    <!-- Row 1: Scrape -> Extract -> Research -->
+                    <div class="pipeline-row">
+                        <div class="pipeline-node" data-stage="scrape">
+                            <div class="node-icon">🔎</div>
+                            <div class="node-content">
+                                <div class="node-title">Scrape</div>
+                                <div class="node-subtitle">Google Maps 수집</div>
+                                <div class="node-stats">
+                                    <span class="stat-processed">0건 처리</span>
+                                    <span class="stat-current"></span>
+                                </div>
+                            </div>
+                            <div class="node-status-badge">대기</div>
+                        </div>
+                        <div class="pipeline-connector horizontal">
+                            <span class="connector-arrow"></span>
+                        </div>
+                        <div class="pipeline-node" data-stage="extract">
+                            <div class="node-icon">📧</div>
+                            <div class="node-content">
+                                <div class="node-title">Extract</div>
+                                <div class="node-subtitle">이메일 추출</div>
+                                <div class="node-stats">
+                                    <span class="stat-processed">0건 처리</span>
+                                    <span class="stat-current"></span>
+                                </div>
+                            </div>
+                            <div class="node-status-badge">대기</div>
+                        </div>
+                        <div class="pipeline-connector horizontal">
+                            <span class="connector-arrow"></span>
+                        </div>
+                        <div class="pipeline-node" data-stage="research">
+                            <div class="node-icon">🤖</div>
+                            <div class="node-content">
+                                <div class="node-title">Research</div>
+                                <div class="node-subtitle">AI 회사조사</div>
+                                <div class="node-stats">
+                                    <span class="stat-processed">0건 처리</span>
+                                    <span class="stat-current"></span>
+                                </div>
+                            </div>
+                            <div class="node-status-badge">대기</div>
+                        </div>
+                    </div>
+                    <!-- Vertical Connector from Research to Generate -->
+                    <div class="pipeline-vertical-connector-wrapper">
+                        <div class="pipeline-connector vertical">
+                            <span class="connector-arrow"></span>
+                        </div>
+                    </div>
+                    <!-- Row 2: Generate -> Upload (offset to align with Research) -->
+                    <div class="pipeline-row row-offset">
+                        <div class="pipeline-node" data-stage="generate">
+                            <div class="node-icon">✍️</div>
+                            <div class="node-content">
+                                <div class="node-title">Generate</div>
+                                <div class="node-subtitle">이메일 생성</div>
+                                <div class="node-stats">
+                                    <span class="stat-processed">0건 처리</span>
+                                    <span class="stat-current"></span>
+                                </div>
+                            </div>
+                            <div class="node-status-badge">대기</div>
+                        </div>
+                        <div class="pipeline-connector horizontal">
+                            <span class="connector-arrow"></span>
+                        </div>
+                        <div class="pipeline-node" data-stage="upload">
+                            <div class="node-icon">🚀</div>
+                            <div class="node-content">
+                                <div class="node-title">Upload</div>
+                                <div class="node-subtitle">Smartlead 업로드</div>
+                                <div class="node-stats">
+                                    <span class="stat-processed">0건 처리</span>
+                                    <span class="stat-current"></span>
+                                </div>
+                            </div>
+                            <div class="node-status-badge">대기</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Today's Stats -->
+            <section class="dashboard-stats-section">
+                <h2>오늘의 현황</h2>
+                <div class="dashboard-cards">
+                    <div class="dashboard-card clickable" data-stage="scraped">
+                        <div class="card-header">
+                            <span class="card-icon">🔎</span>
+                            <span class="card-title">수집</span>
+                        </div>
+                        <div class="card-value" id="pl-scraped">0</div>
+                        <div class="card-desc">Google Maps에서 수집</div>
+                    </div>
+                    <div class="dashboard-card clickable" data-stage="extracted">
+                        <div class="card-header">
+                            <span class="card-icon">📧</span>
+                            <span class="card-title">이메일 추출</span>
+                        </div>
+                        <div class="card-value" id="pl-extracted">0</div>
+                        <div class="card-desc">웹사이트에서 이메일 확보</div>
+                    </div>
+                    <div class="dashboard-card card-highlight clickable" data-stage="researched">
+                        <div class="card-header">
+                            <span class="card-icon">✅</span>
+                            <span class="card-title">검증 통과</span>
+                        </div>
+                        <div class="card-value" id="pl-researched">0</div>
+                        <div class="card-desc">B2B 적합 판정</div>
+                    </div>
+                    <div class="dashboard-card card-muted clickable" data-stage="filtered">
+                        <div class="card-header">
+                            <span class="card-icon">🚫</span>
+                            <span class="card-title">필터링</span>
+                        </div>
+                        <div class="card-value" id="pl-filtered">0</div>
+                        <div class="card-desc">부적합 제외</div>
+                    </div>
+                    <div class="dashboard-card clickable" data-stage="generated">
+                        <div class="card-header">
+                            <span class="card-icon">✍️</span>
+                            <span class="card-title">이메일 생성</span>
+                        </div>
+                        <div class="card-value" id="pl-generated">0</div>
+                        <div class="card-desc">AI 맞춤 이메일</div>
+                    </div>
+                    <div class="dashboard-card card-success clickable" data-stage="completed">
+                        <div class="card-header">
+                            <span class="card-icon">🚀</span>
+                            <span class="card-title">발송 완료</span>
+                        </div>
+                        <div class="card-value" id="pl-completed">0</div>
+                        <div class="card-desc">Smartlead 업로드</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conversion Funnel -->
+            <section class="funnel-section">
+                <h2>📉 전환 퍼널</h2>
+                <div class="funnel-container">
+                    <div class="funnel-bar">
+                        <div class="funnel-fill" id="funnel-scraped" style="width: 100%"></div>
+                        <span class="funnel-label">수집 <span id="funnel-scraped-pct">100%</span></span>
+                    </div>
+                    <div class="funnel-bar">
+                        <div class="funnel-fill" id="funnel-extracted" style="width: 0%"></div>
+                        <span class="funnel-label">이메일 추출 <span id="funnel-extracted-pct">0%</span></span>
+                    </div>
+                    <div class="funnel-bar">
+                        <div class="funnel-fill" id="funnel-researched" style="width: 0%"></div>
+                        <span class="funnel-label">검증 통과 <span id="funnel-researched-pct">0%</span></span>
+                    </div>
+                    <div class="funnel-bar">
+                        <div class="funnel-fill" id="funnel-completed" style="width: 0%"></div>
+                        <span class="funnel-label">발송 완료 <span id="funnel-completed-pct">0%</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Summary -->
+            <section class="error-section" id="error-section" style="display: none;">
+                <h2>❌ 오류 현황</h2>
+                <div class="error-count">
+                    <span id="pl-errors">0</span>건의 오류 발생
+                </div>
+            </section>
+
+            <!-- Recent Logs (Collapsed) -->
+            <section class="logs-section">
+                <h2>📜 최근 로그</h2>
+                <div class="logs-container" id="pl-logs-container" style="height: 150px;">
+                    <div class="log-empty">로그가 없습니다</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Tab Content: Smartlead -->
+        <main class="main tab-content" id="tab-smartlead">
+            <!-- Smartlead Info -->
+            <section class="smartlead-info-section">
+                <h2>🚀 Smartlead 연동</h2>
+                <div class="info-box">
+                    <p>📋 <strong>발송목록Smartlead</strong> 시트의 리드를 Smartlead 캠페인에 업로드합니다.</p>
+                    <p>🔗 업로드된 리드는 Smartlead에서 발송 스케줄을 관리합니다.</p>
+                    <p>📈 오픈율, 클릭율, 답장율 등 추적이 가능합니다.</p>
+                </div>
+            </section>
+
+            <!-- Smartlead Settings -->
+            <section class="smartlead-settings-section">
+                <h2>⚙️ 캠페인 설정</h2>
+                <div class="settings-form">
+                    <div class="form-group">
+                        <label for="campaign-id">캠페인 ID</label>
+                        <input type="text" id="campaign-id" class="form-input" placeholder="예: 2748942" value="2748942">
+                    </div>
+                    <div class="form-hint">
+                        💡 Smartlead 캠페인에서 제목은 <code>{{ai_subject}}</code>, 본문은 <code>{{ai_body}}</code>로 설정하세요.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Smartlead Status -->
+            <section class="smartlead-status-section">
+                <h2>📊 업로드 현황</h2>
+                <div class="status-cards">
+                    <div class="card card-pending">
+                        <div class="card-icon">📋</div>
+                        <div class="card-content">
+                            <span class="card-value" id="sl-pending-count">-</span>
+                            <span class="card-label">대기 리드</span>
+                        </div>
+                    </div>
+                    <div class="card card-completed">
+                        <div class="card-icon">✅</div>
+                        <div class="card-content">
+                            <span class="card-value" id="sl-uploaded-count">-</span>
+                            <span class="card-label">업로드 완료</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Smartlead Controls -->
+            <section class="controls-section">
+                <div class="controls-buttons">
+                    <button id="sl-upload-btn" class="btn btn-primary btn-large">
+                        🚀 Smartlead에 업로드
+                    </button>
+                    <button id="sl-refresh-btn" class="btn btn-secondary">
+                        🔄 새로고침
+                    </button>
+                </div>
+            </section>
+
+            <!-- Smartlead Logs -->
+            <section class="logs-section">
+                <h2>📜 업로드 로그</h2>
+                <div class="logs-container" id="sl-logs-container">
+                    <div class="log-empty">로그가 없습니다</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Tab Content: AI Research -->
+        <main class="main tab-content" id="tab-research">
+            <section class="info-section">
+                <h2>🔍 AI 회사조사</h2>
+                <div class="info-box">
+                    <p>📋 <strong>AI회사조사</strong> 시트의 홈페이지/이메일 정보를 바탕으로 AI가 업체 정보를 조사합니다.</p>
+                </div>
+            </section>
+
+            <section class="status-section">
+                <h2>📊 조사 현황 <span id="rs-status-badge" class="status-badge waiting">대기 중</span></h2>
+                <div class="status-cards">
+                    <div class="card card-pending">
+                        <div class="card-icon">📋</div>
+                        <div class="card-content">
+                            <span class="card-value" id="rs-pending-count">-</span>
+                            <span class="card-label">대기</span>
+                        </div>
+                    </div>
+                    <div class="card card-completed">
+                        <div class="card-icon">✅</div>
+                        <div class="card-content">
+                            <span class="card-value" id="rs-completed-count">-</span>
+                            <span class="card-label">완료</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="controls-section">
+                <div class="controls-buttons">
+                    <button id="rs-start-btn" class="btn btn-primary btn-large">
+                        🔍 조사 시작
+                    </button>
+                    <button id="rs-stop-btn" class="btn btn-danger btn-large" style="display: none;">
+                        🛑 조사 중단
+                    </button>
+                    <button id="rs-refresh-btn" class="btn btn-secondary">
+                        🔄 새로고침
+                    </button>
+                </div>
+            </section>
+
+            <section class="logs-section">
+                <h2>📜 조사 로그</h2>
+                <div class="logs-container" id="rs-logs-container">
+                    <div class="log-empty">로그가 없습니다</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Tab Content: AI Email Gen -->
+        <main class="main tab-content" id="tab-aigen">
+            <section class="info-section">
+                <h2>✍️ AI 본문생성</h2>
+                <div class="info-box">
+                    <p>📧 <strong>AI본문생성</strong> 시트의 업체 정보를 바탕으로 개인화된 이메일을 생성합니다.</p>
+                    <p>🌐 이메일 주소 도메인에 따라 자동으로 언어가 설정됩니다 (예: .mx -> 스페인어, .jp -> 일본어).</p>
+                </div>
+            </section>
+
+            <section class="status-section">
+                <h2>📊 생성 현황 <span id="ag-status-badge" class="status-badge waiting">대기 중</span></h2>
+                <div class="status-cards">
+                    <div class="card card-pending">
+                        <div class="card-icon">📝</div>
+                        <div class="card-content">
+                            <span class="card-value" id="ag-pending-count">-</span>
+                            <span class="card-label">대기</span>
+                        </div>
+                    </div>
+                    <div class="card card-completed">
+                        <div class="card-icon">✨</div>
+                        <div class="card-content">
+                            <span class="card-value" id="ag-completed-count">-</span>
+                            <span class="card-label">완료</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="controls-section">
+                <div class="controls-buttons">
+                    <button id="ag-start-btn" class="btn btn-primary btn-large">
+                        ✨ 본문 생성 시작
+                    </button>
+                    <button id="ag-stop-btn" class="btn btn-danger btn-large" style="display: none;">
+                        🛑 중단
+                    </button>
+                    <button id="ag-refresh-btn" class="btn btn-secondary">
+                        🔄 Refresh
+                    </button>
+                    <button id="ag-preview-btn" class="btn btn-secondary">
+                        🔍 Preview Latest
+                    </button>
+                </div>
+            </section>
+
+            <section class="logs-section">
+                <h2>📜 생성 로그</h2>
+                <div class="logs-container" id="ag-logs-container">
+                    <div class="log-empty">로그가 없습니다</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Irunica Co., Ltd. Elite Edition © 2025</p>
+        </footer>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3>Lead Content Preview</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-field">
+                    <label>Subject</label>
+                    <div id="preview-subject" class="preview-text"></div>
+                </div>
+                <div class="preview-field">
+                    <label>Body</label>
+                    <div id="preview-body" class="preview-text body-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-content glass-panel modal-large">
+            <div class="modal-header">
+                <h3 id="detail-modal-title">수집된 리드</h3>
+                <span id="detail-modal-count" class="badge">0건</span>
+                <button class="close-detail-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="detail-loading" class="loading-spinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <span>로딩 중...</span>
+                </div>
+                <div class="detail-table-container">
+                    <table id="detail-table" class="detail-table">
+                        <thead id="detail-table-head"></thead>
+                        <tbody id="detail-table-body"></tbody>
+                    </table>
+                </div>
+                <div id="detail-empty" class="empty-state" style="display: none;">데이터가 없습니다.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="pagination">
+                    <button id="detail-prev-btn" class="btn btn-secondary" disabled>이전</button>
+                    <span id="detail-page-info">1 / 1</span>
+                    <button id="detail-next-btn" class="btn btn-secondary" disabled>다음</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
