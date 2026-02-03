@@ -95,10 +95,11 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
         'ja': 'ja', 'Japanese': 'ja',
         'zh': 'zh', 'Chinese': 'zh',
         'es': 'es', 'Spanish': 'es',
-        'pt': 'pt', 'Portuguese': 'pt',
-        'de': 'de', 'German': 'de',
-        'fr': 'fr', 'French': 'fr',
-        'it': 'it', 'Italian': 'it',
+        // Unsupported languages fallback to English
+        'pt': 'en', 'Portuguese': 'en',
+        'de': 'en', 'German': 'en',
+        'fr': 'en', 'French': 'en',
+        'it': 'en', 'Italian': 'en',
         'en': 'en', 'English': 'en',
     };
     const language = (langMap[leadData.language] || 'en') as SupportedLanguage;
