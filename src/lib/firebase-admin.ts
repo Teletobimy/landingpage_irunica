@@ -177,6 +177,48 @@ export const cacheTrendTranslation = async (lang: string, category: string, tran
     }
 };
 
+// Cache and retrieve translated color names
+export const getColorNameCache = async (lang: string): Promise<Record<string, string> | null> => {
+    try {
+        const docId = `color_names_${lang}`;
+        const docRef = db.collection('color_name_translations').doc(docId);
+        const doc = await docRef.get();
+
+        if (doc.exists) {
+            const data = doc.data();
+            // Check if cache is fresh (less than 7 days old - color names rarely change)
+            const cachedAt = data?.cachedAt?.toDate?.() || new Date(0);
+            const now = new Date();
+            const daysDiff = (now.getTime() - cachedAt.getTime()) / (1000 * 60 * 60 * 24);
+
+            if (daysDiff < 7 && data?.translations) {
+                console.log(`[ColorNameCache HIT] ${lang} (${Object.keys(data.translations).length} colors)`);
+                return data.translations;
+            }
+        }
+        console.log(`[ColorNameCache MISS] ${lang}`);
+        return null;
+    } catch (error) {
+        console.error('[ColorNameCache] Error reading:', error);
+        return null;
+    }
+};
+
+export const cacheColorNames = async (lang: string, translations: Record<string, string>): Promise<void> => {
+    try {
+        const docId = `color_names_${lang}`;
+        const docRef = db.collection('color_name_translations').doc(docId);
+        await docRef.set({
+            lang,
+            translations,
+            cachedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        console.log(`[ColorNameCache] Saved ${lang} (${Object.keys(translations).length} colors)`);
+    } catch (error) {
+        console.error('[ColorNameCache] Error saving:', error);
+    }
+};
+
 export const logVisitor = async (vipId: string) => {
     try {
         await db.collection('visitor_logs').add({

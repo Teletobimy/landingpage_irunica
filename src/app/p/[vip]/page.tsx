@@ -10,7 +10,7 @@ import VisualSection from '@/components/VisualSection';
 import AnalysisSection from '@/components/AnalysisSection';
 import InfluencerStore from '@/components/modules/InfluencerStore';
 import LeadCaptureFlow from '@/components/LeadCaptureFlow';
-import { getLatestTrends, getTranslatedTrendData } from '@/lib/fetch-latest';
+import { getLatestTrends, getTranslatedTrendData, getTranslatedColorNames } from '@/lib/fetch-latest';
 import { getModulesForIndustry, ModuleName } from '@/config/module-registry';
 import { CompanyClassification } from '@/types/company';
 import { detectLanguageFromDomain } from '@/lib/language-detector';
@@ -107,8 +107,11 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
         console.log(`[Research] Found research report for ${vipId} (${researchReport.length} chars)`);
     }
 
-    // 2.5. Server-side translation of trend data (with Firestore caching)
-    const { translatedData: trendData, translatedSummaries } = await getTranslatedTrendData(rawTrendData, language);
+    // 2.5. Server-side translation of trend data and color names (with Firestore caching)
+    const [{ translatedData: trendData, translatedSummaries }, translatedColorNames] = await Promise.all([
+        getTranslatedTrendData(rawTrendData, language),
+        getTranslatedColorNames(rawTrendData, language)
+    ]);
 
     // 3. Fetch Content (Streaming Pattern)
     let synergyText;
@@ -152,7 +155,7 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
             {modules.map((moduleConfig) => {
                 const ModuleComponent = MODULE_COMPONENTS[moduleConfig.component];
                 // Pass props based on component type (including language)
-                const props = getModuleProps(moduleConfig.component, companyName, trendData, trendUpdatedAt, language, vipId, translatedSummaries);
+                const props = getModuleProps(moduleConfig.component, companyName, trendData, trendUpdatedAt, language, vipId, translatedSummaries, translatedColorNames);
                 return <ModuleComponent key={moduleConfig.component} {...props} />;
             })}
 
@@ -174,15 +177,15 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
 }
 
 // Helper function to get props for each module type
-function getModuleProps(moduleName: ModuleName, companyName: string, trendData: any, trendUpdatedAt: string | null, lang: SupportedLanguage, vipId: string, translatedSummaries?: Record<string, string>): Record<string, any> {
+function getModuleProps(moduleName: ModuleName, companyName: string, trendData: any, trendUpdatedAt: string | null, lang: SupportedLanguage, vipId: string, translatedSummaries?: Record<string, string>, translatedColorNames?: Record<string, string>): Record<string, any> {
     const baseProps = { lang, vipId };
     switch (moduleName) {
         case 'ProtocolMatcher':
             return { ...baseProps, companyName };
         case 'ColorAtelier':
-            return { ...baseProps, trendData, category: '립메이크업' };
+            return { ...baseProps, trendData, category: '립메이크업', translatedColorNames };
         case 'TrendAnalysis':
-            return { ...baseProps, trendData, updatedAt: trendUpdatedAt, translatedSummaries };
+            return { ...baseProps, trendData, updatedAt: trendUpdatedAt, translatedSummaries, translatedColorNames };
         default:
             return baseProps;
     }

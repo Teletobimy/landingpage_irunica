@@ -24,6 +24,7 @@ interface Props {
     updatedAt?: string;
     lang?: SupportedLanguage;
     translatedSummaries?: Record<string, string>; // Pre-translated summaries from server
+    translatedColorNames?: Record<string, string>; // Pre-translated color names from server
 }
 
 // Category display order and labels
@@ -34,7 +35,23 @@ const CATEGORY_ORDER = [
     { key: '베이스메이크업', label: 'Base', labelKo: '베이스', icon: '✨' },
 ] as const;
 
-export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', translatedSummaries: serverTranslatedSummaries }: Props) {
+// Helper function to get translated color name with fallback
+function getTranslatedColorName(colorName: string, lang: SupportedLanguage, translatedColorNames?: Record<string, string>): string {
+    // If Korean, return Korean name (remove any English in parentheses)
+    if (lang === 'ko') {
+        return colorName.replace(/\s*\([^)]*\)\s*/g, '').trim();
+    }
+
+    // Check server-provided translations first
+    if (translatedColorNames && translatedColorNames[colorName]) {
+        return translatedColorNames[colorName];
+    }
+
+    // Fallback to extractColorName (for names with English in parentheses)
+    return extractColorName(colorName, lang);
+}
+
+export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', translatedSummaries: serverTranslatedSummaries, translatedColorNames }: Props) {
     const t = getTranslations(lang).trendAnalysis;
     const [expandedCategory, setExpandedCategory] = useState<string | null>('메이크업');
     // Initialize with server-provided translations
@@ -189,7 +206,7 @@ export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', trans
                                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                     {category.trending_colors.map((colorName, idx) => {
                                         const hex = category.color_codes[colorName];
-                                        const displayName = extractColorName(colorName, lang);
+                                        const displayName = getTranslatedColorName(colorName, lang, translatedColorNames);
 
                                         return (
                                             <motion.div
@@ -240,7 +257,7 @@ export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', trans
                                                         key={color}
                                                         className="text-[10px] px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded-full"
                                                     >
-                                                        {color}
+                                                        {getTranslatedColorName(color, lang, translatedColorNames)}
                                                     </span>
                                                 ))}
                                                 {colors.length > 6 && (
@@ -265,7 +282,7 @@ export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', trans
 
                         const topColor = category.trending_colors[0];
                         const topHex = category.color_codes[topColor];
-                        const topColorDisplay = extractColorName(topColor, lang);
+                        const topColorDisplay = getTranslatedColorName(topColor, lang, translatedColorNames);
 
                         return (
                             <motion.div
