@@ -23,6 +23,7 @@ interface Props {
     trendData?: TrendData;
     updatedAt?: string;
     lang?: SupportedLanguage;
+    translatedSummaries?: Record<string, string>; // Pre-translated summaries from server
 }
 
 // Category display order and labels
@@ -33,10 +34,11 @@ const CATEGORY_ORDER = [
     { key: '베이스메이크업', label: 'Base', labelKo: '베이스', icon: '✨' },
 ] as const;
 
-export default function TrendAnalysis({ trendData, updatedAt, lang = 'en' }: Props) {
+export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', translatedSummaries: serverTranslatedSummaries }: Props) {
     const t = getTranslations(lang).trendAnalysis;
     const [expandedCategory, setExpandedCategory] = useState<string | null>('메이크업');
-    const [translatedSummaries, setTranslatedSummaries] = useState<Record<string, string>>({});
+    // Initialize with server-provided translations
+    const [translatedSummaries, setTranslatedSummaries] = useState<Record<string, string>>(serverTranslatedSummaries || {});
     const [translatingCategory, setTranslatingCategory] = useState<string | null>(null);
 
     // Format date

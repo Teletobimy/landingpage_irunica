@@ -5,7 +5,6 @@ export type ModuleName =
   | 'ProtocolMatcher'
   | 'ColorAtelier'
   | 'TrendAnalysis'
-  | 'BulkPricing'
   | 'WhiteLabel';
 
 export interface ModuleConfig {
@@ -30,14 +29,14 @@ export const INDUSTRY_MODULES: Record<IndustryType, ModuleConfig[]> = {
     { component: 'ColorAtelier', priority: 3 },
   ],
   hotel: [
-    { component: 'BulkPricing', priority: 1 },
+    { component: 'RiskFreeScaler', priority: 1 },
     { component: 'WhiteLabel', priority: 2 },
     { component: 'ProtocolMatcher', priority: 3 },
   ],
   distributor: [
-    { component: 'BulkPricing', priority: 1 },
-    { component: 'RiskFreeScaler', priority: 2 },
-    { component: 'TrendAnalysis', priority: 3 },
+    { component: 'RiskFreeScaler', priority: 1 },
+    { component: 'TrendAnalysis', priority: 2 },
+    { component: 'ColorAtelier', priority: 3 },
   ],
   unknown: [
     { component: 'RiskFreeScaler', priority: 1 },

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getColorHistory } from '@/lib/fetch-color-history';
 import { SupportedLanguage } from '@/config/tld-language';
 import { getTranslations } from '@/locales/translations';
+import { extractColorName } from '@/config/trend-translations';
 
 // --- Animation Variants ---
 const containerVariants = {
@@ -104,6 +105,7 @@ export default function ColorAtelier({ trendData, category = '립메이크업', 
                     {trendingColors.map((name: string) => {
                         const hex = colorCodes[name];
                         if (!hex) return null;
+                        const displayName = extractColorName(name, lang);
 
                         return (
                             <div key={name} className="relative group">
@@ -127,7 +129,7 @@ export default function ColorAtelier({ trendData, category = '립메이크업', 
                                         )}
                                     </motion.div>
 
-                                    <p className="text-center text-xs font-bold tracking-tight">{name}</p>
+                                    <p className="text-center text-xs font-bold tracking-tight">{displayName}</p>
                                     {selectedColor === name && (
                                         <motion.div layoutId="underline" className="h-[2px] bg-gold-500 w-8 mx-auto mt-2" />
                                     )}
@@ -151,7 +153,7 @@ export default function ColorAtelier({ trendData, category = '립메이크업', 
                             <div className="p-10">
                                 <div className="flex justify-between items-end mb-12">
                                     <div>
-                                        <h4 className="text-2xl font-light mb-1 italic">Trend Evolution: <span className="font-bold text-black">{selectedColor}</span></h4>
+                                        <h4 className="text-2xl font-light mb-1 italic">Trend Evolution: <span className="font-bold text-black">{extractColorName(selectedColor, lang)}</span></h4>
                                         <p className="text-[10px] text-neutral-400 font-mono tracking-widest uppercase">Chronological Data Trace (Recent Points)</p>
                                     </div>
                                     <div className="h-10 w-[1px] bg-neutral-200 hidden md:block" />
@@ -201,7 +203,7 @@ export default function ColorAtelier({ trendData, category = '립메이크업', 
                                     <div>
                                         <p className="text-xs font-bold text-purple-600 mb-1">Gemini 3 Flash Insight</p>
                                         <p className="text-sm text-neutral-600 leading-relaxed">
-                                            <strong className="text-black">{selectedColor}</strong> has seen a 14% increase in preference compared to early December, emerging as a key player in the &apos;Mute Tone&apos; trend. Purchase intent is highest when combined with glow gel textures.
+                                            <strong className="text-black">{extractColorName(selectedColor, lang)}</strong> has seen a 14% increase in preference compared to early December, emerging as a key player in the &apos;Mute Tone&apos; trend. Purchase intent is highest when combined with glow gel textures.
                                         </p>
                                     </div>
                                 </motion.div>

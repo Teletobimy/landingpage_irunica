@@ -134,6 +134,49 @@ export const cacheVipResult = async (vipId: string, data: any) => {
     }
 };
 
+// Cache and retrieve translated trend summaries
+export const getTrendTranslationCache = async (lang: string, category: string): Promise<string | null> => {
+    try {
+        const docId = `trend_translation_${lang}_${category}`;
+        const docRef = db.collection('trend_translations').doc(docId);
+        const doc = await docRef.get();
+
+        if (doc.exists) {
+            const data = doc.data();
+            // Check if cache is fresh (less than 24 hours old)
+            const cachedAt = data?.cachedAt?.toDate?.() || new Date(0);
+            const now = new Date();
+            const hoursDiff = (now.getTime() - cachedAt.getTime()) / (1000 * 60 * 60);
+
+            if (hoursDiff < 24 && data?.translatedText) {
+                console.log(`[TrendTranslation Cache HIT] ${lang}/${category}`);
+                return data.translatedText;
+            }
+        }
+        console.log(`[TrendTranslation Cache MISS] ${lang}/${category}`);
+        return null;
+    } catch (error) {
+        console.error('[TrendTranslation Cache] Error reading:', error);
+        return null;
+    }
+};
+
+export const cacheTrendTranslation = async (lang: string, category: string, translatedText: string): Promise<void> => {
+    try {
+        const docId = `trend_translation_${lang}_${category}`;
+        const docRef = db.collection('trend_translations').doc(docId);
+        await docRef.set({
+            lang,
+            category,
+            translatedText,
+            cachedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        console.log(`[TrendTranslation Cache] Saved ${lang}/${category}`);
+    } catch (error) {
+        console.error('[TrendTranslation Cache] Error saving:', error);
+    }
+};
+
 export const logVisitor = async (vipId: string) => {
     try {
         await db.collection('visitor_logs').add({
