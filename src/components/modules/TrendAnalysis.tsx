@@ -51,6 +51,22 @@ function getTranslatedColorName(colorName: string, lang: SupportedLanguage, tran
     return extractColorName(colorName, lang);
 }
 
+// Helper function to get translated color family name with fallback to AI translation
+function getTranslatedFamilyName(familyName: string, lang: SupportedLanguage, translatedColorNames?: Record<string, string>): string {
+    // If Korean, return Korean name
+    if (lang === 'ko') {
+        return familyName.replace(/\s*\([^)]*\)\s*/g, '').trim();
+    }
+
+    // Check server-provided AI translations first (includes family names)
+    if (translatedColorNames && translatedColorNames[familyName]) {
+        return translatedColorNames[familyName];
+    }
+
+    // Fallback to static translation table
+    return getColorFamilyTranslation(familyName, lang);
+}
+
 export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', translatedSummaries: serverTranslatedSummaries, translatedColorNames }: Props) {
     const t = getTranslations(lang).trendAnalysis;
     const [expandedCategory, setExpandedCategory] = useState<string | null>('메이크업');
@@ -249,7 +265,7 @@ export default function TrendAnalysis({ trendData, updatedAt, lang = 'en', trans
                                             className="bg-white rounded-xl p-4 border border-neutral-100"
                                         >
                                             <h5 className="text-sm font-bold text-neutral-800 mb-2">
-                                                {getColorFamilyTranslation(familyName, lang)}
+                                                {getTranslatedFamilyName(familyName, lang, translatedColorNames)}
                                             </h5>
                                             <div className="flex flex-wrap gap-1">
                                                 {colors.slice(0, 6).map((color) => (

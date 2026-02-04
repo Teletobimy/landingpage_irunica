@@ -2,7 +2,10 @@ import { getTrendTranslationCache, cacheTrendTranslation, getColorNameCache, cac
 import { SupportedLanguage } from '@/config/tld-language';
 
 const GEMINI_API_KEY = process.env.GOOGLE_GEMINI_API_KEY;
-const MODEL_NAME = 'gemini-2.5-flash';
+const MODEL_NAME = 'gemini-2.0-flash';
+
+// Debug: Log API key presence at module load
+console.log(`[Translation] GEMINI_API_KEY configured: ${!!GEMINI_API_KEY}`);
 
 const LANGUAGE_NAMES: Record<string, string> = {
     en: 'English',
@@ -72,39 +75,61 @@ function extractColorNamesToTranslate(trendData: any): string[] {
     const colorNames = new Set<string>();
     const categories = ['메이크업', '립메이크업', '아이메이크업', '베이스메이크업'];
 
+    console.log(`[extractColorNamesToTranslate] Processing categories: ${categories.join(', ')}`);
+
     for (const category of categories) {
-        if (!trendData[category]) continue;
+        if (!trendData[category]) {
+            console.log(`[extractColorNamesToTranslate] Category ${category} not found in trendData`);
+            continue;
+        }
 
         // Add trending_colors
         const trendingColors = trendData[category].trending_colors || [];
+        let addedFromTrending = 0;
         for (const color of trendingColors) {
             if (isKoreanColorName(color)) {
                 colorNames.add(color);
+                addedFromTrending++;
             }
         }
+        console.log(`[extractColorNamesToTranslate] ${category}: ${addedFromTrending}/${trendingColors.length} trending colors need translation`);
 
         // Add color_family keys and values
         const colorFamilies = trendData[category].color_families || {};
+        let addedFamilyNames = 0;
+        let addedFamilyColors = 0;
         for (const [familyName, colors] of Object.entries(colorFamilies)) {
             if (isKoreanColorName(familyName)) {
                 colorNames.add(familyName);
+                addedFamilyNames++;
             }
             if (Array.isArray(colors)) {
                 for (const color of colors) {
                     if (isKoreanColorName(color)) {
                         colorNames.add(color);
+                        addedFamilyColors++;
                     }
                 }
             }
         }
+        console.log(`[extractColorNamesToTranslate] ${category}: ${addedFamilyNames} family names, ${addedFamilyColors} family colors need translation`);
     }
 
+    console.log(`[extractColorNamesToTranslate] Total unique colors to translate: ${colorNames.size}`);
     return Array.from(colorNames);
 }
 
 // Translate color names in batch using Gemini API
 async function translateColorNamesBatch(colorNames: string[], targetLang: SupportedLanguage): Promise<Record<string, string>> {
-    if (colorNames.length === 0 || !GEMINI_API_KEY) {
+    console.log(`[TranslateColorNames] Starting batch translation: ${colorNames.length} colors to ${targetLang}`);
+
+    if (colorNames.length === 0) {
+        console.log('[TranslateColorNames] No colors to translate');
+        return {};
+    }
+
+    if (!GEMINI_API_KEY) {
+        console.error('[TranslateColorNames] GOOGLE_GEMINI_API_KEY not configured!');
         return {};
     }
 
@@ -123,6 +148,8 @@ ${colorNames.map((name, i) => `${i + 1}. ${name}`).join('\n')}
 Respond in JSON format ONLY, no markdown, no explanation:
 {"translations": {"original Korean name": "translated name", ...}}`;
 
+        console.log(`[TranslateColorNames] Calling Gemini API with ${colorNames.length} colors...`);
+
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -138,14 +165,20 @@ Respond in JSON format ONLY, no markdown, no explanation:
         });
 
         if (!response.ok) {
-            console.error('[TranslateColorNames] API error:', await response.text());
+            const errorText = await response.text();
+            console.error(`[TranslateColorNames] API error (${response.status}):`, errorText);
             return {};
         }
 
         const result = await response.json();
         const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
-        if (!rawText) return {};
+        if (!rawText) {
+            console.error('[TranslateColorNames] Empty response from API');
+            return {};
+        }
+
+        console.log(`[TranslateColorNames] Raw response: ${rawText.substring(0, 200)}...`);
 
         // Parse JSON response - handle potential markdown code blocks
         let jsonText = rawText;
@@ -155,7 +188,10 @@ Respond in JSON format ONLY, no markdown, no explanation:
         }
 
         const parsed = JSON.parse(jsonText);
-        return parsed.translations || {};
+        const translations = parsed.translations || {};
+
+        console.log(`[TranslateColorNames] Successfully translated ${Object.keys(translations).length} colors`);
+        return translations;
     } catch (error) {
         console.error('[TranslateColorNames] Error:', error);
         return {};
@@ -167,27 +203,38 @@ export async function getTranslatedColorNames(
     trendData: any,
     lang: SupportedLanguage
 ): Promise<Record<string, string>> {
-    if (!trendData || lang === 'ko') {
+    console.log(`[getTranslatedColorNames] Called for lang=${lang}, trendData exists=${!!trendData}`);
+
+    if (!trendData) {
+        console.log('[getTranslatedColorNames] No trend data, returning empty');
+        return {};
+    }
+
+    if (lang === 'ko') {
+        console.log('[getTranslatedColorNames] Korean language, no translation needed');
         return {};
     }
 
     // Check cache first
     const cached = await getColorNameCache(lang);
-    if (cached) {
+    if (cached && Object.keys(cached).length > 0) {
         // Verify cache has all needed translations
         const neededColors = extractColorNamesToTranslate(trendData);
+        console.log(`[getTranslatedColorNames] Cache found with ${Object.keys(cached).length} translations, need ${neededColors.length} colors`);
+
         const missingColors = neededColors.filter(color => !cached[color]);
 
         if (missingColors.length === 0) {
+            console.log('[getTranslatedColorNames] All colors found in cache');
             return cached;
         }
 
         // Translate missing colors and merge with cache
-        console.log(`[TranslateColorNames] ${missingColors.length} colors missing from cache, translating...`);
+        console.log(`[getTranslatedColorNames] ${missingColors.length} colors missing from cache, translating...`);
         const newTranslations = await translateColorNamesBatch(missingColors, lang);
         const merged = { ...cached, ...newTranslations };
 
-        // Update cache with new translations
+        // Update cache with new translations (only if we got new ones)
         if (Object.keys(newTranslations).length > 0) {
             await cacheColorNames(lang, merged);
         }
@@ -197,13 +244,20 @@ export async function getTranslatedColorNames(
 
     // No cache - translate all colors
     const colorNames = extractColorNamesToTranslate(trendData);
-    console.log(`[TranslateColorNames] Translating ${colorNames.length} colors for ${lang}`);
+    console.log(`[getTranslatedColorNames] No cache, extracting colors: ${colorNames.length} colors found`);
+
+    if (colorNames.length > 0) {
+        console.log(`[getTranslatedColorNames] Sample colors: ${colorNames.slice(0, 5).join(', ')}`);
+    }
 
     const translations = await translateColorNamesBatch(colorNames, lang);
 
-    // Cache the results
+    // Cache the results only if we got translations
     if (Object.keys(translations).length > 0) {
+        console.log(`[getTranslatedColorNames] Got ${Object.keys(translations).length} translations, caching...`);
         await cacheColorNames(lang, translations);
+    } else {
+        console.log('[getTranslatedColorNames] No translations received, NOT caching empty result');
     }
 
     return translations;
