@@ -5,7 +5,11 @@ export type ModuleName =
   | 'ProtocolMatcher'
   | 'ColorAtelier'
   | 'TrendAnalysis'
-  | 'WhiteLabel';
+  | 'WhiteLabel'
+  | 'SocialProof'
+  | 'WhyIrunica'
+  | 'ProcessTimeline'
+  | 'FAQ';
 
 export interface ModuleConfig {
   component: ModuleName;

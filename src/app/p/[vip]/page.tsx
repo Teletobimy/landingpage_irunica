@@ -23,6 +23,10 @@ const MODULE_COMPONENTS: Record<ModuleName, React.ComponentType<any>> = {
     ColorAtelier: dynamicImport(() => import('@/components/ColorAtelier')),
     TrendAnalysis: dynamicImport(() => import('@/components/modules/TrendAnalysis')),
     WhiteLabel: dynamicImport(() => import('@/components/modules/WhiteLabel')),
+    SocialProof: dynamicImport(() => import('@/components/modules/SocialProof')),
+    WhyIrunica: dynamicImport(() => import('@/components/modules/WhyIrunica')),
+    ProcessTimeline: dynamicImport(() => import('@/components/modules/ProcessTimeline')),
+    FAQ: dynamicImport(() => import('@/components/modules/FAQ')),
 };
 
 
@@ -143,6 +147,12 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
     // Get industry-specific modules
     const modules = getModulesForIndustry(classification.industry);
 
+    // Common static modules (shown for all industries)
+    const SocialProofComponent = MODULE_COMPONENTS.SocialProof;
+    const WhyIrunicaComponent = MODULE_COMPONENTS.WhyIrunica;
+    const ProcessTimelineComponent = MODULE_COMPONENTS.ProcessTimeline;
+    const FAQComponent = MODULE_COMPONENTS.FAQ;
+
     return (
         <>
             {/* Signal that main content is ready (dismisses CinematicIntro) */}
@@ -151,13 +161,31 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
             {/* Analysis Section (Immediate: Text is ready) */}
             <AnalysisSection companyName={companyName} analysisData={synergyText} />
 
-            {/* Dynamic Industry-Specific Modules */}
-            {modules.map((moduleConfig) => {
+            {/* Social Proof - Trust Building (NEW) */}
+            <SocialProofComponent lang={language} />
+
+            {/* First Industry-Specific Module (usually RiskFreeScaler) */}
+            {modules.slice(0, 1).map((moduleConfig) => {
                 const ModuleComponent = MODULE_COMPONENTS[moduleConfig.component];
-                // Pass props based on component type (including language)
                 const props = getModuleProps(moduleConfig.component, companyName, trendData, trendUpdatedAt, language, vipId, translatedSummaries, translatedColorNames);
                 return <ModuleComponent key={moduleConfig.component} {...props} />;
             })}
+
+            {/* Why Irunica - Differentiators (NEW) */}
+            <WhyIrunicaComponent lang={language} />
+
+            {/* Process Timeline (NEW) */}
+            <ProcessTimelineComponent lang={language} />
+
+            {/* Remaining Industry-Specific Modules */}
+            {modules.slice(1).map((moduleConfig) => {
+                const ModuleComponent = MODULE_COMPONENTS[moduleConfig.component];
+                const props = getModuleProps(moduleConfig.component, companyName, trendData, trendUpdatedAt, language, vipId, translatedSummaries, translatedColorNames);
+                return <ModuleComponent key={moduleConfig.component} {...props} />;
+            })}
+
+            {/* FAQ Section (NEW) */}
+            <FAQComponent lang={language} />
 
             {/* Image-Dependent Sections (Single Suspense Boundary) */}
             <React.Suspense fallback={

@@ -14,6 +14,60 @@ export interface LoadingTranslations {
 
 export interface ModuleTranslations {
   loading: LoadingTranslations;
+  socialProof: {
+    title: string;
+    titleBold: string;
+    brandsLaunched: string;
+    countriesServed: string;
+    reorderRate: string;
+    timeToMarket: string;
+    trustedBy: string;
+  };
+  whyIrunica: {
+    title: string;
+    titleBold: string;
+    reason1Title: string;
+    reason1Desc: string;
+    reason2Title: string;
+    reason2Desc: string;
+    reason3Title: string;
+    reason3Desc: string;
+    reason4Title: string;
+    reason4Desc: string;
+  };
+  processTimeline: {
+    title: string;
+    titleBold: string;
+    step1: string;
+    step1Desc: string;
+    step1Day: string;
+    step2: string;
+    step2Desc: string;
+    step2Day: string;
+    step3: string;
+    step3Desc: string;
+    step3Day: string;
+    step4: string;
+    step4Desc: string;
+    step4Day: string;
+    step5: string;
+    step5Desc: string;
+    step5Day: string;
+  };
+  faq: {
+    title: string;
+    titleBold: string;
+    q1: string;
+    a1: string;
+    q2: string;
+    a2: string;
+    q3: string;
+    a3: string;
+    q4: string;
+    a4: string;
+    q5: string;
+    a5: string;
+  };
   riskFreeScaler: {
     title: string;
     titleBold: string;
@@ -160,6 +214,60 @@ export const translations: Record<SupportedLanguage, ModuleTranslations> = {
       step4Detail: "Preparing to unveil the future of your product...",
       creatingVisuals: "Creating Visuals...",
     },
+    socialProof: {
+      title: "Numbers That",
+      titleBold: "Matter",
+      brandsLaunched: "Brands Launched",
+      countriesServed: "Countries Served",
+      reorderRate: "Reorder Rate",
+      timeToMarket: "Days To Market",
+      trustedBy: "Trusted by leading beauty brands worldwide",
+    },
+    whyIrunica: {
+      title: "Why Choose",
+      titleBold: "IRUNICA?",
+      reason1Title: "K-Beauty Origin",
+      reason1Desc: "Direct from Seoul, where global beauty trends begin. Authentic Korean formulations.",
+      reason2Title: "Low MOQ, High Quality",
+      reason2Desc: "Start with just 100 units. No compromise on premium formulation quality.",
+      reason3Title: "Speed to Market",
+      reason3Desc: "14-day turnaround from order to delivery. No long wait times.",
+      reason4Title: "R&D Included",
+      reason4Desc: "CPNP/FDA pre-certified formulas. Zero upfront R&D cost for you.",
+    },
+    processTimeline: {
+      title: "Your Journey",
+      titleBold: "With Us",
+      step1: "Consult",
+      step1Desc: "Share your vision. We'll match you with the perfect formulation.",
+      step1Day: "Day 1",
+      step2: "Sample",
+      step2Desc: "Receive product samples tailored to your brand requirements.",
+      step2Day: "Day 3",
+      step3: "Design",
+      step3Desc: "Finalize packaging design with our creative team.",
+      step3Day: "Day 5",
+      step4: "Produce",
+      step4Desc: "Manufacturing begins with strict quality control.",
+      step4Day: "Day 14",
+      step5: "Ship",
+      step5Desc: "Your branded products delivered worldwide.",
+      step5Day: "Day 21",
+    },
+    faq: {
+      title: "Frequently Asked",
+      titleBold: "Questions",
+      q1: "What is the minimum order quantity?",
+      a1: "Our MOQ is 100 units per SKU. Perfect for testing new products or launching pilot collections without significant inventory risk.",
+      q2: "Do you handle regulatory compliance?",
+      a2: "Yes! All our formulations are pre-certified for CPNP (EU) and FDA (US). We handle all regulatory paperwork so you can focus on your brand.",
+      q3: "Can I use my own packaging design?",
+      a3: "Absolutely. We support fully custom packaging including your logo, colors, and design. Our team can also help create packaging if needed.",
+      q4: "What's the typical lead time?",
+      a4: "Standard orders ship within 14-21 days. Express production available for urgent orders at additional cost.",
+      q5: "Do you offer white-label solutions?",
+      a5: "Yes, we provide complete white-label and private-label services. Your brand, our expertise. No one will know the products come from us.",
+    },
     riskFreeScaler: {
       title: "Your Growth,",
       titleBold: "Zero Risk.",
@@ -303,6 +411,60 @@ export const translations: Record<SupportedLanguage, ModuleTranslations> = {
       step4Label: "공개",
       step4Detail: "제품의 미래를 공개할 준비를 합니다...",
       creatingVisuals: "비주얼 생성 중...",
+    },
+    socialProof: {
+      title: "숫자로 보는",
+      titleBold: "성과",
+      brandsLaunched: "런칭 브랜드",
+      countriesServed: "진출 국가",
+      reorderRate: "재주문율",
+      timeToMarket: "출시 소요일",
+      trustedBy: "전 세계 뷰티 브랜드가 신뢰합니다",
+    },
+    whyIrunica: {
+      title: "왜",
+      titleBold: "이루니카인가?",
+      reason1Title: "K-뷰티 본고장",
+      reason1Desc: "글로벌 뷰티 트렌드의 시작점, 서울에서 직접. 정통 한국 포뮬러.",
+      reason2Title: "낮은 MOQ, 높은 품질",
+      reason2Desc: "100개부터 시작 가능. 프리미엄 품질은 타협하지 않습니다.",
+      reason3Title: "빠른 출시",
+      reason3Desc: "주문부터 배송까지 14일. 긴 대기 시간 없음.",
+      reason4Title: "R&D 포함",
+      reason4Desc: "CPNP/FDA 사전 인증 포뮬러. 초기 R&D 비용 제로.",
+    },
+    processTimeline: {
+      title: "함께하는",
+      titleBold: "여정",
+      step1: "상담",
+      step1Desc: "비전을 공유하세요. 완벽한 포뮬러를 매칭해 드립니다.",
+      step1Day: "1일차",
+      step2: "샘플",
+      step2Desc: "브랜드 요구사항에 맞춘 제품 샘플을 받아보세요.",
+      step2Day: "3일차",
+      step3: "디자인",
+      step3Desc: "크리에이티브 팀과 패키지 디자인을 완성합니다.",
+      step3Day: "5일차",
+      step4: "생산",
+      step4Desc: "엄격한 품질 관리 하에 제조가 시작됩니다.",
+      step4Day: "14일차",
+      step5: "배송",
+      step5Desc: "브랜드 제품이 전 세계로 배송됩니다.",
+      step5Day: "21일차",
+    },
+    faq: {
+      title: "자주 묻는",
+      titleBold: "질문",
+      q1: "최소 주문 수량은 어떻게 되나요?",
+      a1: "SKU당 100개부터 주문 가능합니다. 신제품 테스트나 파일럿 컬렉션 런칭에 최적이며, 재고 리스크를 최소화할 수 있습니다.",
+      q2: "인증/규제 관련 처리도 해주시나요?",
+      a2: "네! 모든 포뮬러가 CPNP(EU) 및 FDA(US) 사전 인증되어 있습니다. 규제 관련 서류 작업은 저희가 처리하므로 브랜드에만 집중하세요.",
+      q3: "자체 패키지 디자인을 사용할 수 있나요?",
+      a3: "물론입니다. 로고, 컬러, 디자인을 포함한 완전 맞춤 패키지를 지원합니다. 필요시 패키지 디자인 제작도 도와드립니다.",
+      q4: "일반적인 리드타임은 얼마나 되나요?",
+      a4: "일반 주문은 14-21일 내 배송됩니다. 긴급 주문시 추가 비용으로 익스프레스 생산이 가능합니다.",
+      q5: "화이트라벨 솔루션을 제공하나요?",
+      a5: "네, 완전한 화이트라벨 및 프라이빗라벨 서비스를 제공합니다. 당신의 브랜드, 우리의 전문성. 제품의 출처는 비공개됩니다.",
     },
     riskFreeScaler: {
       title: "당신의 성장,",
@@ -448,6 +610,60 @@ export const translations: Record<SupportedLanguage, ModuleTranslations> = {
       step4Detail: "製品の未来を公開する準備をしています...",
       creatingVisuals: "ビジュアルを作成中...",
     },
+    socialProof: {
+      title: "数字で見る",
+      titleBold: "実績",
+      brandsLaunched: "ローンチブランド",
+      countriesServed: "進出国",
+      reorderRate: "リピート率",
+      timeToMarket: "発売までの日数",
+      trustedBy: "世界中のビューティーブランドに信頼されています",
+    },
+    whyIrunica: {
+      title: "なぜ",
+      titleBold: "IRUNICAなのか?",
+      reason1Title: "K-ビューティー本場",
+      reason1Desc: "グローバルビューティートレンドの発信地、ソウルから直接。本格的な韓国フォーミュラ。",
+      reason2Title: "低MOQ、高品質",
+      reason2Desc: "100個から始められます。プレミアム品質は妥協しません。",
+      reason3Title: "スピード市場投入",
+      reason3Desc: "注文から配送まで14日。長い待ち時間なし。",
+      reason4Title: "R&D込み",
+      reason4Desc: "CPNP/FDA事前認証フォーミュラ。初期R&Dコストゼロ。",
+    },
+    processTimeline: {
+      title: "私たちとの",
+      titleBold: "ジャーニー",
+      step1: "相談",
+      step1Desc: "ビジョンを共有してください。最適なフォーミュラをマッチングします。",
+      step1Day: "1日目",
+      step2: "サンプル",
+      step2Desc: "ブランド要件に合わせた製品サンプルをお届けします。",
+      step2Day: "3日目",
+      step3: "デザイン",
+      step3Desc: "クリエイティブチームとパッケージデザインを完成させます。",
+      step3Day: "5日目",
+      step4: "製造",
+      step4Desc: "厳格な品質管理のもと製造が始まります。",
+      step4Day: "14日目",
+      step5: "配送",
+      step5Desc: "ブランド製品が世界中に配送されます。",
+      step5Day: "21日目",
+    },
+    faq: {
+      title: "よくある",
+      titleBold: "ご質問",
+      q1: "最小注文数量はいくつですか?",
+      a1: "SKUあたり100個から注文可能です。新製品のテストやパイロットコレクションの立ち上げに最適で、在庫リスクを最小限に抑えられます。",
+      q2: "規制対応も行っていますか?",
+      a2: "はい！すべてのフォーミュラがCPNP（EU）およびFDA（US）の事前認証を取得しています。規制関連の書類作業は私たちが対応します。",
+      q3: "自社のパッケージデザインは使えますか?",
+      a3: "もちろんです。ロゴ、カラー、デザインを含む完全カスタムパッケージに対応しています。必要に応じてデザイン制作もサポートします。",
+      q4: "通常のリードタイムはどのくらいですか?",
+      a4: "通常注文は14-21日以内に発送されます。緊急の場合は追加料金でエクスプレス製造が可能です。",
+      q5: "ホワイトラベルソリューションはありますか?",
+      a5: "はい、完全なホワイトラベル・プライベートラベルサービスを提供しています。あなたのブランド、私たちの専門知識。製品の出所は非公開です。",
+    },
     riskFreeScaler: {
       title: "あなたの成長、",
       titleBold: "リスクはゼロ。",
@@ -592,6 +808,60 @@ export const translations: Record<SupportedLanguage, ModuleTranslations> = {
       step4Detail: "Preparando para revelar el futuro de tu producto...",
       creatingVisuals: "Creando Visuales...",
     },
+    socialProof: {
+      title: "Números Que",
+      titleBold: "Importan",
+      brandsLaunched: "Marcas Lanzadas",
+      countriesServed: "Países Atendidos",
+      reorderRate: "Tasa de Recompra",
+      timeToMarket: "Días al Mercado",
+      trustedBy: "Confiado por marcas de belleza líderes en todo el mundo",
+    },
+    whyIrunica: {
+      title: "¿Por Qué Elegir",
+      titleBold: "IRUNICA?",
+      reason1Title: "Origen K-Beauty",
+      reason1Desc: "Directo desde Seúl, donde nacen las tendencias globales de belleza. Formulaciones coreanas auténticas.",
+      reason2Title: "Bajo MOQ, Alta Calidad",
+      reason2Desc: "Comienza con solo 100 unidades. Sin comprometer la calidad de formulación premium.",
+      reason3Title: "Rapidez al Mercado",
+      reason3Desc: "14 días desde el pedido hasta la entrega. Sin largas esperas.",
+      reason4Title: "I+D Incluido",
+      reason4Desc: "Fórmulas pre-certificadas CPNP/FDA. Cero costos iniciales de I+D para ti.",
+    },
+    processTimeline: {
+      title: "Tu Viaje",
+      titleBold: "Con Nosotros",
+      step1: "Consulta",
+      step1Desc: "Comparte tu visión. Te emparejamos con la formulación perfecta.",
+      step1Day: "Día 1",
+      step2: "Muestra",
+      step2Desc: "Recibe muestras de productos adaptadas a los requisitos de tu marca.",
+      step2Day: "Día 3",
+      step3: "Diseño",
+      step3Desc: "Finaliza el diseño del empaque con nuestro equipo creativo.",
+      step3Day: "Día 5",
+      step4: "Producción",
+      step4Desc: "La fabricación comienza con estricto control de calidad.",
+      step4Day: "Día 14",
+      step5: "Envío",
+      step5Desc: "Tus productos de marca entregados en todo el mundo.",
+      step5Day: "Día 21",
+    },
+    faq: {
+      title: "Preguntas",
+      titleBold: "Frecuentes",
+      q1: "¿Cuál es la cantidad mínima de pedido?",
+      a1: "Nuestro MOQ es de 100 unidades por SKU. Perfecto para probar nuevos productos o lanzar colecciones piloto sin riesgo significativo de inventario.",
+      q2: "¿Manejan el cumplimiento regulatorio?",
+      a2: "¡Sí! Todas nuestras formulaciones están pre-certificadas para CPNP (UE) y FDA (EE.UU.). Nos encargamos de todo el papeleo regulatorio.",
+      q3: "¿Puedo usar mi propio diseño de empaque?",
+      a3: "Absolutamente. Soportamos empaques totalmente personalizados incluyendo tu logo, colores y diseño. Nuestro equipo también puede ayudar a crear empaques si es necesario.",
+      q4: "¿Cuál es el tiempo de entrega típico?",
+      a4: "Los pedidos estándar se envían en 14-21 días. Producción express disponible para pedidos urgentes con costo adicional.",
+      q5: "¿Ofrecen soluciones de marca blanca?",
+      a5: "Sí, proporcionamos servicios completos de marca blanca y marca privada. Tu marca, nuestra experiencia. Nadie sabrá que los productos vienen de nosotros.",
+    },
     riskFreeScaler: {
       title: "Tu Crecimiento,",
       titleBold: "Cero Riesgo.",
@@ -735,6 +1005,60 @@ export const translations: Record<SupportedLanguage, ModuleTranslations> = {
       step4Label: "揭晓",
       step4Detail: "准备揭晓产品的未来...",
       creatingVisuals: "正在创建视觉效果...",
+    },
+    socialProof: {
+      title: "数字见证",
+      titleBold: "实力",
+      brandsLaunched: "合作品牌",
+      countriesServed: "覆盖国家",
+      reorderRate: "复购率",
+      timeToMarket: "上市天数",
+      trustedBy: "全球领先美妆品牌的信赖之选",
+    },
+    whyIrunica: {
+      title: "为何选择",
+      titleBold: "IRUNICA?",
+      reason1Title: "K-Beauty本源",
+      reason1Desc: "直接来自全球美妆趋势发源地首尔。正宗韩国配方。",
+      reason2Title: "低起订量，高品质",
+      reason2Desc: "100件起订。绝不妥协高端配方品质。",
+      reason3Title: "快速上市",
+      reason3Desc: "从下单到交付仅需14天。无需漫长等待。",
+      reason4Title: "含研发",
+      reason4Desc: "CPNP/FDA预认证配方。零前期研发成本。",
+    },
+    processTimeline: {
+      title: "携手",
+      titleBold: "共进",
+      step1: "咨询",
+      step1Desc: "分享您的愿景。我们将为您匹配最佳配方。",
+      step1Day: "第1天",
+      step2: "样品",
+      step2Desc: "收到根据您品牌需求定制的产品样品。",
+      step2Day: "第3天",
+      step3: "设计",
+      step3Desc: "与我们的创意团队完成包装设计。",
+      step3Day: "第5天",
+      step4: "生产",
+      step4Desc: "在严格的质量控制下开始制造。",
+      step4Day: "第14天",
+      step5: "发货",
+      step5Desc: "您的品牌产品配送至全球。",
+      step5Day: "第21天",
+    },
+    faq: {
+      title: "常见",
+      titleBold: "问题",
+      q1: "最低起订量是多少?",
+      a1: "每SKU最低100件起订。非常适合测试新产品或推出试点系列，无需承担大量库存风险。",
+      q2: "你们处理法规合规吗?",
+      a2: "是的！我们所有配方均已获得CPNP（欧盟）和FDA（美国）预认证。我们处理所有法规文件，让您专注于品牌建设。",
+      q3: "可以使用自己的包装设计吗?",
+      a3: "当然可以。我们支持完全定制包装，包括您的logo、颜色和设计。如有需要，我们的团队也可以帮助创建包装。",
+      q4: "通常的交货时间是多久?",
+      a4: "标准订单14-21天内发货。紧急订单可加急生产，需额外收费。",
+      q5: "你们提供白标解决方案吗?",
+      a5: "是的，我们提供完整的白标和自有品牌服务。您的品牌，我们的专业。没有人会知道产品来自我们。",
     },
     riskFreeScaler: {
       title: "您的成长，",
