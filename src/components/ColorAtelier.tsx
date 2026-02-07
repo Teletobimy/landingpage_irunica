@@ -62,6 +62,7 @@ function getTranslatedColorName(colorName: string, lang: SupportedLanguage, tran
 
 export default function ColorAtelier({ trendData, category = '립메이크업', lang = 'en', translatedColorNames }: Props) {
     const t = getTranslations(lang).colorAtelier;
+    const tInsight = getTranslations(lang).colorAtelierInsight;
     const [selectedColor, setSelectedColor] = useState<string | null>(null);
     const [historyData, setHistoryData] = useState<any[]>([]);
     const [isLoadingHistory, setIsLoadingHistory] = useState(false);
@@ -218,7 +219,7 @@ export default function ColorAtelier({ trendData, category = '립메이크업', 
                                 >
                                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex-shrink-0 animate-pulse mt-1" />
                                     <div>
-                                        <p className="text-xs font-bold text-purple-600 mb-1">Gemini 3 Flash Insight</p>
+                                        <p className="text-xs font-bold text-purple-600 mb-1">{tInsight?.aiInsightLabel || 'AI Trend Insight'}</p>
                                         <p className="text-sm text-neutral-600 leading-relaxed">
                                             <strong className="text-black">{getTranslatedColorName(selectedColor, lang, translatedColorNames)}</strong> has seen a 14% increase in preference compared to early December, emerging as a key player in the &apos;Mute Tone&apos; trend. Purchase intent is highest when combined with glow gel textures.
                                         </p>

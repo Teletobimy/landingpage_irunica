@@ -3,9 +3,27 @@
 import React from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
+import { SupportedLanguage } from '@/config/tld-language';
+
+const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
+    en: 'EN',
+    ko: 'KR',
+    ja: 'JA',
+    es: 'ES',
+    zh: 'ZH',
+    pt: 'PT',
+    de: 'DE',
+    fr: 'FR',
+    it: 'IT',
+};
 
 export default function Header() {
     const { language, setLanguage, t } = useLanguage();
+
+    // Show current language + EN toggle (if not already EN)
+    const toggleOptions: SupportedLanguage[] = language === 'en'
+        ? ['en']
+        : ['en', language];
 
     return (
         <motion.header
@@ -23,24 +41,18 @@ export default function Header() {
 
             {/* Language Selector */}
             <div className="flex items-center gap-1 border border-white/10 rounded-full p-1 bg-black/40 backdrop-blur-md">
-                <button
-                    onClick={() => setLanguage('en')}
-                    className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-300 ${language === 'en'
-                            ? 'bg-gold-500 text-black shadow-[0_0_10px_rgba(212,175,55,0.4)]'
-                            : 'text-white/50 hover:text-white'
-                        }`}
-                >
-                    EN
-                </button>
-                <button
-                    onClick={() => setLanguage('ko')}
-                    className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-300 ${language === 'ko'
-                            ? 'bg-gold-500 text-black shadow-[0_0_10px_rgba(212,175,55,0.4)]'
-                            : 'text-white/50 hover:text-white'
-                        }`}
-                >
-                    KR
-                </button>
+                {toggleOptions.map((lang) => (
+                    <button
+                        key={lang}
+                        onClick={() => setLanguage(lang)}
+                        className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-300 ${language === lang
+                                ? 'bg-gold-500 text-black shadow-[0_0_10px_rgba(212,175,55,0.4)]'
+                                : 'text-white/50 hover:text-white'
+                            }`}
+                    >
+                        {LANGUAGE_LABELS[lang]}
+                    </button>
+                ))}
             </div>
         </motion.header>
     );

@@ -1,13 +1,17 @@
 'use client';
 import { motion } from 'framer-motion';
+import { SupportedLanguage } from '@/config/tld-language';
+import { getTranslations } from '@/locales/translations';
 
 interface Props {
     companyName: string;
     productImages?: { url: string }[];
     vipId?: string;
+    lang?: SupportedLanguage;
 }
 
-export default function InfluencerStore({ companyName, productImages, vipId }: Props) {
+export default function InfluencerStore({ companyName, productImages, vipId, lang = 'en' }: Props) {
+    const t = getTranslations(lang).influencerStore;
     const displayImage = productImages?.[0]?.url || '/assets/images/default-premium-product.jpg';
 
     const trackClick = async (buttonName: string) => {
@@ -39,16 +43,16 @@ export default function InfluencerStore({ companyName, productImages, vipId }: P
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center px-6">
                 <div className="order-2 md:order-1">
                     <h3 className="text-4xl font-light leading-tight mb-6">
-                        From Curator to <br /><span className="font-bold underline decoration-gold-500 underline-offset-8">Brand Owner.</span>
+                        {t.fromCurator} <br /><span className="font-bold underline decoration-gold-500 underline-offset-8">{t.brandOwner}</span>
                     </h3>
                     <p className="text-neutral-500 mb-8 leading-relaxed">
-                        Stop promoting other brands. {companyName}&apos;s vision meets Irunica&apos;s technology. Your perfect lineup is ready. Launch your first drop.
+                        {t.description.replace('{companyName}', companyName)}
                     </p>
                     <button
                         onClick={handleStartLineup}
                         className="px-8 py-4 bg-black text-white rounded-full font-bold hover:bg-gold-600 transition-colors"
                     >
-                        Start Your Lineup
+                        {t.startLineup}
                     </button>
                 </div>
 
@@ -66,16 +70,15 @@ export default function InfluencerStore({ companyName, productImages, vipId }: P
                                 <div className="w-full aspect-[4/5] bg-neutral-100 rounded-2xl overflow-hidden relative">
                                     <img src={displayImage} alt="Customized product" className="object-cover w-full h-full" />
                                     <div className="absolute top-2 right-2 bg-black text-white text-[10px] px-2 py-1 rounded-full">
-                                        Best Seller
+                                        {t.exclusive}
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] text-neutral-400 uppercase">New Arrival</p>
-                                    <p className="text-sm font-bold tracking-tight">Signature Glow Toner</p>
-                                    <p className="text-xs text-gold-600">$48.00</p>
+                                    <p className="text-[10px] text-neutral-400 uppercase">{t.privateLabel}</p>
+                                    <p className="text-sm font-bold tracking-tight">{t.customSerum}</p>
                                 </div>
                                 <button className="w-full py-3 bg-black text-white text-[10px] font-bold uppercase rounded-lg hover:bg-neutral-800 transition-colors">
-                                    Add to Cart
+                                    {t.requestSample}
                                 </button>
                             </div>
                         </div>

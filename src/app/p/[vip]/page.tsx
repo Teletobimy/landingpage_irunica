@@ -10,6 +10,7 @@ import VisualSection from '@/components/VisualSection';
 import AnalysisSection from '@/components/AnalysisSection';
 import InfluencerStore from '@/components/modules/InfluencerStore';
 import LeadCaptureFlow from '@/components/LeadCaptureFlow';
+import Footer from '@/components/Footer';
 import { getLatestTrends, getTranslatedTrendData, getTranslatedColorNames } from '@/lib/fetch-latest';
 import { getModulesForIndustry, ModuleName } from '@/config/module-registry';
 import { CompanyClassification } from '@/types/company';
@@ -23,6 +24,8 @@ const MODULE_COMPONENTS: Record<ModuleName, React.ComponentType<any>> = {
     ColorAtelier: dynamicImport(() => import('@/components/ColorAtelier')),
     TrendAnalysis: dynamicImport(() => import('@/components/modules/TrendAnalysis')),
     WhiteLabel: dynamicImport(() => import('@/components/modules/WhiteLabel')),
+    BulkPricing: dynamicImport(() => import('@/components/modules/BulkPricing')),
+    BrandPortfolio: dynamicImport(() => import('@/components/modules/BrandPortfolio')),
     SocialProof: dynamicImport(() => import('@/components/modules/SocialProof')),
     WhyIrunica: dynamicImport(() => import('@/components/modules/WhyIrunica')),
     ProcessTimeline: dynamicImport(() => import('@/components/modules/ProcessTimeline')),
@@ -159,22 +162,27 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
             <ContentReadySignal />
 
             {/* Analysis Section (Immediate: Text is ready) */}
-            <AnalysisSection companyName={companyName} analysisData={synergyText} />
+            <AnalysisSection
+                companyName={companyName}
+                analysisData={synergyText}
+                lang={language}
+                confidence={classification.confidence}
+            />
 
-            {/* Social Proof - Trust Building (NEW) */}
+            {/* Social Proof - Trust Building */}
             <SocialProofComponent lang={language} />
 
-            {/* First Industry-Specific Module (usually RiskFreeScaler) */}
+            {/* First Industry-Specific Module */}
             {modules.slice(0, 1).map((moduleConfig) => {
                 const ModuleComponent = MODULE_COMPONENTS[moduleConfig.component];
                 const props = getModuleProps(moduleConfig.component, companyName, trendData, trendUpdatedAt, language, vipId, translatedSummaries, translatedColorNames);
                 return <ModuleComponent key={moduleConfig.component} {...props} />;
             })}
 
-            {/* Why Irunica - Differentiators (NEW) */}
+            {/* Why Irunica - Differentiators */}
             <WhyIrunicaComponent lang={language} />
 
-            {/* Process Timeline (NEW) */}
+            {/* Process Timeline */}
             <ProcessTimelineComponent lang={language} />
 
             {/* Remaining Industry-Specific Modules */}
@@ -184,7 +192,7 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
                 return <ModuleComponent key={moduleConfig.component} {...props} />;
             })}
 
-            {/* FAQ Section (NEW) */}
+            {/* FAQ Section */}
             <FAQComponent lang={language} />
 
             {/* Image-Dependent Sections (Single Suspense Boundary) */}
@@ -214,6 +222,10 @@ function getModuleProps(moduleName: ModuleName, companyName: string, trendData: 
             return { ...baseProps, trendData, category: '립메이크업', translatedColorNames };
         case 'TrendAnalysis':
             return { ...baseProps, trendData, updatedAt: trendUpdatedAt, translatedSummaries, translatedColorNames };
+        case 'BulkPricing':
+            return { ...baseProps, companyName, vipId };
+        case 'BrandPortfolio':
+            return { ...baseProps, companyName };
         default:
             return baseProps;
     }
@@ -224,9 +236,10 @@ async function ImageDependentSections({ imagesPromise, companyName, lang, vipId 
     const images = await imagesPromise;
     return (
         <>
-            <VisualSection images={images} companyName={companyName} />
-            <InfluencerStore companyName={companyName} productImages={images} vipId={vipId} />
+            <VisualSection images={images} companyName={companyName} lang={lang} />
+            <InfluencerStore companyName={companyName} productImages={images} vipId={vipId} lang={lang} />
             <LeadCaptureFlow companyName={companyName} generatedImages={images} lang={lang} />
+            <Footer lang={lang} />
         </>
     );
 }

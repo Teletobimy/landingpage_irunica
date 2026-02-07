@@ -1,4 +1,4 @@
-export type SupportedLanguage = 'en' | 'ko' | 'ja' | 'es' | 'zh';
+export type SupportedLanguage = 'en' | 'ko' | 'ja' | 'es' | 'zh' | 'pt' | 'de' | 'fr' | 'it';
 
 export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
   en: 'English',
@@ -6,6 +6,10 @@ export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
   ja: 'Japanese',
   es: 'Spanish',
   zh: 'Chinese',
+  pt: 'Portuguese',
+  de: 'German',
+  fr: 'French',
+  it: 'Italian',
 };
 
 export const TLD_LANGUAGE_MAP: Record<string, SupportedLanguage> = {
@@ -40,6 +44,22 @@ export const TLD_LANGUAGE_MAP: Record<string, SupportedLanguage> = {
   'cn': 'zh',
   'tw': 'zh',
   'hk': 'zh',
+
+  // 포르투갈어
+  'br': 'pt',  // 브라질
+  'pt': 'pt',  // 포르투갈
+
+  // 독일어
+  'de': 'de',  // 독일
+  'at': 'de',  // 오스트리아
+  'ch': 'de',  // 스위스 (독일어 기본)
+
+  // 프랑스어
+  'fr': 'fr',  // 프랑스
+  'be': 'fr',  // 벨기에
+
+  // 이탈리아어
+  'it': 'it',  // 이탈리아
 
   // 영어 (기본값)
   'com': 'en',

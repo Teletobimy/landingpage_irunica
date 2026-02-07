@@ -11,6 +11,7 @@ interface Props {
 
 export default function BulkPricing({ lang = 'en', companyName = 'Unknown', vipId }: Props) {
     const t = getTranslations(lang).bulkPricing;
+    const te = getTranslations(lang).bulkPricingExtra;
 
     const trackClick = async (buttonName: string) => {
         try {
@@ -74,9 +75,7 @@ export default function BulkPricing({ lang = 'en', companyName = 'Unknown', vipI
                     <span className="text-[10px] text-gold-500 font-mono tracking-widest uppercase">Volume Partnership</span>
                     <h3 className="text-3xl font-light mt-4">{t.title} <span className="font-bold">{t.titleBold}</span></h3>
                     <p className="text-neutral-400 mt-4 max-w-2xl mx-auto">
-                        {lang === 'ko'
-                            ? '대량 주문 시 볼륨에 따른 특별 할인과 맞춤 서비스를 제공합니다.'
-                            : 'Volume-based discounts and dedicated services for bulk orders.'}
+                        {te.description}
                     </p>
                 </div>
 
@@ -117,12 +116,12 @@ export default function BulkPricing({ lang = 'en', companyName = 'Unknown', vipI
                                     }`}>
                                         <span className="text-3xl font-bold">{tier.discount}</span>
                                         <span className={`text-sm ${tier.highlighted ? 'text-neutral-600' : 'text-neutral-500'}`}>
-                                            {lang === 'ko' ? '할인' : 'OFF'}
+                                            {te.off}
                                         </span>
                                     </div>
                                 ) : (
                                     <span className={`text-2xl font-bold ${tier.highlighted ? 'text-black' : 'text-white'}`}>
-                                        {lang === 'ko' ? '기본가' : 'Base Price'}
+                                        {te.basePrice}
                                     </span>
                                 )}
                             </div>
@@ -146,7 +145,7 @@ export default function BulkPricing({ lang = 'en', companyName = 'Unknown', vipI
                                         : 'bg-white/10 text-white hover:bg-white/20'
                                 }`}
                             >
-                                {lang === 'ko' ? '견적 문의' : 'Request Quote'}
+                                {te.requestQuote}
                             </button>
                         </motion.div>
                     ))}
@@ -160,14 +159,12 @@ export default function BulkPricing({ lang = 'en', companyName = 'Unknown', vipI
                     className="mt-12 text-center"
                 >
                     <p className="text-sm text-neutral-500">
-                        {lang === 'ko'
-                            ? '10,000개 이상 대량 주문 시 추가 할인 협의 가능합니다.'
-                            : 'Additional discounts available for orders over 10,000 units.'}
+                        {te.additionalDiscounts}
                         <button
                             onClick={() => handleRequestQuote('10,000+ Custom')}
                             className="text-gold-500 ml-2 hover:underline"
                         >
-                            {lang === 'ko' ? '문의하기 →' : 'Contact us →'}
+                            {te.contactUs} &rarr;
                         </button>
                     </p>
                 </motion.div>

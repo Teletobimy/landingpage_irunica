@@ -1,6 +1,8 @@
 'use client';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
+import { SupportedLanguage } from '@/config/tld-language';
+import { getTranslations } from '@/locales/translations';
 
 interface AnalysisSectionProps {
     companyName: string;
@@ -8,25 +10,40 @@ interface AnalysisSectionProps {
         headline: string;
         description: string;
     };
+    lang?: SupportedLanguage;
+    confidence?: number;
+    trendCount?: number;
 }
 
-export default function AnalysisSection({ companyName, analysisData }: AnalysisSectionProps) {
+export default function AnalysisSection({ companyName, analysisData, lang = 'en', confidence, trendCount }: AnalysisSectionProps) {
+    const t = getTranslations(lang).analysisSection;
+
+    const metrics = [
+        { label: t.brandMatch, status: t.verified, icon: '\u2713' },
+        { label: t.globalTrend, status: t.analyzed, icon: '\u2713' },
+        { label: t.formulaOpt, status: t.optimized, icon: '\u2713' },
+        { label: t.marketFit, status: t.matched, icon: '\u2713' },
+    ];
+
     return (
         <section className="min-h-screen bg-gold-50 bg-hanji text-black pt-32 pb-16 px-10 flex flex-col justify-center border-b border-neutral-200">
             <div className="max-w-4xl mx-auto w-full space-y-12">
 
                 {/* Module 1: AI Analysis Status */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {['Brand Match', 'Global Trend', 'Formula Opt', 'Market Fit'].map((label, i) => (
+                    {metrics.map((metric, i) => (
                         <motion.div
-                            key={label}
+                            key={metric.label}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: i * 0.125 }}
                             className="bg-neutral-50 p-4 rounded-lg border border-neutral-200"
                         >
-                            <p className="text-[10px] text-gray-500 uppercase tracking-tighter">{label}</p>
-                            <p className="text-xl font-bold text-gold-600">98.{i} %</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-tighter">{metric.label}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                                <span className="text-gold-600 text-lg font-bold">{metric.icon}</span>
+                                <span className="text-sm font-semibold text-neutral-800">{metric.status}</span>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
@@ -35,7 +52,7 @@ export default function AnalysisSection({ companyName, analysisData }: AnalysisS
                 <div className="space-y-4">
                     <h2 className="text-3xl md:text-5xl font-thin leading-tight text-neutral-900">
                         {companyName} & IRUNICA <br />
-                        <span className="text-gold-500 font-bold italic">Rendering New Future.</span>
+                        <span className="text-gold-500 font-bold italic">{t.renderingFuture}</span>
                     </h2>
 
                     <div className="text-neutral-600 text-lg md:text-xl font-light leading-relaxed min-h-[100px]">
@@ -60,7 +77,7 @@ export default function AnalysisSection({ companyName, analysisData }: AnalysisS
                     transition={{ repeat: Infinity, duration: 2 }}
                     className="flex justify-center pt-10"
                 >
-                    <span className="text-[10px] tracking-[0.5em] text-gray-600">SCROLL TO VIEW VISUALS</span>
+                    <span className="text-[10px] tracking-[0.5em] text-gray-600">{t.scrollToView}</span>
                 </motion.div>
             </div>
         </section>

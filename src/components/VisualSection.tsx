@@ -5,28 +5,29 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import DefaultPremiumSection from './DefaultPremiumSection';
+import { SupportedLanguage } from '@/config/tld-language';
+import { getTranslations } from '@/locales/translations';
 
 interface VisualSectionProps {
     images: { id: string; url: string }[];
     companyName: string;
+    lang?: SupportedLanguage;
 }
 
-export default function VisualSection({ images, companyName }: VisualSectionProps) {
+export default function VisualSection({ images, companyName, lang = 'en' }: VisualSectionProps) {
     const count = images.length;
+    const t = getTranslations(lang).visualSection;
 
-    // DEBUG: Check what VisualSection is receiving
-    console.log('[VisualSection] Received Images:', images);
-
-    // 1. 이미지가 0개인 경우: 프리미엄 기본 에셋 노출 (Fallback)
+    // 1. No images: show premium default fallback
     if (count === 0) {
-        return <DefaultPremiumSection />;
+        return <DefaultPremiumSection lang={lang} />;
     }
 
     return (
         <section className="bg-neutral-950 py-20 px-6">
             <div className="max-w-7xl mx-auto space-y-20">
 
-                {/* --- 섹션 1: 메인 히어로 (무조건 1번째 이미지 사용) --- */}
+                {/* --- Section 1: Hero (always uses first image) --- */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -44,29 +45,29 @@ export default function VisualSection({ images, companyName }: VisualSectionProp
                         <h3 className="text-white text-4xl font-bold tracking-tighter italic uppercase">
                             {companyName} Edition
                         </h3>
-                        <p className="text-white/70 mt-2 tracking-widest uppercase text-xs">Signature Nanobanana Formula</p>
+                        <p className="text-white/70 mt-2 tracking-widest uppercase text-xs">{t.premiumFormulation}</p>
                     </div>
                 </motion.div>
 
-                {/* --- 섹션 2: 나머지 이미지 갯수에 따른 유동적 그리드 --- */}
+                {/* --- Section 2: Dynamic grid based on image count --- */}
                 <div className="grid gap-6">
                     {count === 1 && (
-                        <p className="text-center text-neutral-500 text-sm">Exclusive Preview for {companyName}</p>
+                        <p className="text-center text-neutral-500 text-sm">{t.exclusivePreview.replace('{companyName}', companyName)}</p>
                     )}
 
-                    {/* 이미지 2개: 좌우 50:50 배치 (Duo Mode) */}
+                    {/* 2 images: 50:50 layout */}
                     {count === 2 && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-[500px]">
                             <ImageSlot src={images[1].url} className="h-full" />
                             <div className="flex items-center justify-center border border-white/10 rounded-xl p-10 bg-white/5">
                                 <p className="text-white font-light text-center leading-relaxed">
-                                    &quot;We render your brand value <br /> in its purest form.&quot;
+                                    &quot;{t.brandValueQuote}&quot;
                                 </p>
                             </div>
                         </div>
                     )}
 
-                    {/* 이미지 3-4개: 비대칭 그리드 (Modern Grid) */}
+                    {/* 3-4 images: Asymmetric grid */}
                     {(count === 3 || count === 4) && (
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                             <ImageSlot src={images[1].url} className="col-span-2 h-[400px]" />
@@ -75,7 +76,7 @@ export default function VisualSection({ images, companyName }: VisualSectionProp
                         </div>
                     )}
 
-                    {/* 이미지 5개: 풀 컬렉션 (Premium Gallery) */}
+                    {/* 5+ images: Premium Gallery */}
                     {count >= 5 && (
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             <div className="col-span-2 row-span-2 h-[600px]">
@@ -94,7 +95,7 @@ export default function VisualSection({ images, companyName }: VisualSectionProp
     );
 }
 
-// 공통 이미지 슬롯 컴포넌트
+// Common image slot component
 function ImageSlot({ src, className }: { src: string; className?: string }) {
     return (
         <motion.div
