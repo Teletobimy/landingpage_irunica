@@ -20,24 +20,28 @@ export interface ModuleConfig {
 
 export const INDUSTRY_MODULES: Record<IndustryType, ModuleConfig[]> = {
   spa: [
-    { component: 'RiskFreeScaler', priority: 1 },
-    { component: 'ProtocolMatcher', priority: 2 },
-    { component: 'ColorAtelier', priority: 3 },
+    { component: 'BrandPortfolio', priority: 1 },
+    { component: 'RiskFreeScaler', priority: 2 },
+    { component: 'ProtocolMatcher', priority: 3 },
+    { component: 'ColorAtelier', priority: 4 },
   ],
   clinic: [
-    { component: 'RiskFreeScaler', priority: 1 },
-    { component: 'ProtocolMatcher', priority: 2 },
-    { component: 'ColorAtelier', priority: 3 },
+    { component: 'BrandPortfolio', priority: 1 },
+    { component: 'RiskFreeScaler', priority: 2 },
+    { component: 'ProtocolMatcher', priority: 3 },
+    { component: 'ColorAtelier', priority: 4 },
   ],
   retail: [
-    { component: 'RiskFreeScaler', priority: 1 },
-    { component: 'TrendAnalysis', priority: 2 },
-    { component: 'ColorAtelier', priority: 3 },
+    { component: 'BrandPortfolio', priority: 1 },
+    { component: 'RiskFreeScaler', priority: 2 },
+    { component: 'TrendAnalysis', priority: 3 },
+    { component: 'ColorAtelier', priority: 4 },
   ],
   hotel: [
-    { component: 'BulkPricing', priority: 1 },
-    { component: 'WhiteLabel', priority: 2 },
-    { component: 'ProtocolMatcher', priority: 3 },
+    { component: 'BrandPortfolio', priority: 1 },
+    { component: 'BulkPricing', priority: 2 },
+    { component: 'WhiteLabel', priority: 3 },
+    { component: 'ProtocolMatcher', priority: 4 },
   ],
   distributor: [
     { component: 'BrandPortfolio', priority: 1 },
@@ -45,9 +49,10 @@ export const INDUSTRY_MODULES: Record<IndustryType, ModuleConfig[]> = {
     { component: 'RiskFreeScaler', priority: 3 },
   ],
   unknown: [
-    { component: 'RiskFreeScaler', priority: 1 },
-    { component: 'ProtocolMatcher', priority: 2 },
-    { component: 'ColorAtelier', priority: 3 },
+    { component: 'BrandPortfolio', priority: 1 },
+    { component: 'RiskFreeScaler', priority: 2 },
+    { component: 'ProtocolMatcher', priority: 3 },
+    { component: 'ColorAtelier', priority: 4 },
   ],
 };
 

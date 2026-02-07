@@ -296,25 +296,25 @@ export const getOrGenerateAssets = async (
                     })
             )
         );
+
+        // Background upload and cache - DO NOT AWAIT
+        uploadImagesToStorage(vipId, imageResults).then(async (uploadedImages) => {
+            await cacheVipResult(vipId, { synergyText: await textPromise, productImages: uploadedImages, classification });
+            console.log(`[Cache] Cached images for ${vipId}`);
+        }).catch(err => console.error('[Cache] Failed:', err));
+
         return imageResults;
     })();
 
     const synergyText = await textPromise;
 
-    // Upload images to Cloud Storage, then cache URLs to Firestore
-    productImagesPromise.then(async (images) => {
-        try {
-            console.log(`[Cache] Uploading ${images.length} images to Cloud Storage...`);
-            const uploadedImages = await uploadImagesToStorage(vipId, images);
-            console.log(`[Cache] Images uploaded, saving to Firestore...`);
-            await cacheVipResult(vipId, { synergyText, productImages: uploadedImages, classification });
-            console.log(`[Cache] Successfully cached ${vipId}`);
-        } catch (error) {
-            console.error('[Cache] Failed to upload/cache:', error);
-        }
-    });
-
-    return { synergyText, productImagesPromise, classification };
+    // Return immediately with Promise that resolves to empty array
+    // Frontend will use fallback images, actual images cached in background
+    return {
+        synergyText,
+        productImagesPromise: Promise.resolve([]),
+        classification
+    };
 };
 
 export const generateCustomAssets = getOrGenerateAssets;
