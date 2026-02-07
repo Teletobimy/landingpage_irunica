@@ -106,3 +106,4 @@ exports.sendVipReport = functions.firestore.document('visitor_logs/{id}')
 ### 2. API Configuration
 *   **Auth**: Use `GOOGLE_GEMINI_API_KEY` (AI Studio Key).
 *   **EndpointBase**: `https://generativelanguage.googleapis.com/v1beta/models/`
+# Deployment trigger - Sat Feb  7 17:27:04 KST 2026
