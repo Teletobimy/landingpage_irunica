@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { email, name, phone, message, companyName, imageUrls, step } = body;
+        const { email, name, phone, message, companyName, company, imageUrls, step, inquiryType } = body;
 
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -58,11 +58,12 @@ export async function POST(req: Request) {
             await transporter.sendMail({
                 from: `"Web Lead System" <${ADMIN_EMAIL}>`,
                 to: ADMIN_EMAIL, // Send to self
-                subject: `[New Lead] ${companyName} - ${name}`,
+                subject: `[New Lead] ${companyName} - ${name} (${inquiryType || 'General'})`,
                 html: `
           <div style="font-family: sans-serif;">
             <h3 style="color: #d97706;">New Landing Page Inquiry</h3>
-            <p><strong>Company:</strong> ${companyName}</p>
+            <p><strong>Inquiry Type:</strong> ${inquiryType || 'Not specified'}</p>
+            <p><strong>Company:</strong> ${companyName}${company ? ` (${company})` : ''}</p>
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Phone:</strong> ${phone}</p>

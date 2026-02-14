@@ -70,14 +70,22 @@ export default function SocialProof({ lang = 'en' }: Props) {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 }}
-                    className="flex flex-wrap justify-center items-center gap-8 opacity-50"
+                    className="flex flex-wrap justify-center items-center gap-3"
                 >
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                    {[
+                        { name: 'CPNP', desc: 'EU Cosmetics Certified' },
+                        { name: 'KFDA', desc: 'Korea FDA Approved' },
+                        { name: 'GMP', desc: 'Good Manufacturing Practice' },
+                        { name: 'ISO 22716', desc: 'Cosmetics Quality Standard' },
+                        { name: 'EWG', desc: 'Clean Beauty Verified' },
+                        { name: 'Cruelty-Free', desc: 'No Animal Testing' },
+                    ].map((cert) => (
                         <div
-                            key={i}
-                            className="w-20 h-10 bg-white/10 rounded flex items-center justify-center text-[10px] text-white/30"
+                            key={cert.name}
+                            className="px-4 py-2 border border-gold-500/30 rounded-full bg-gold-500/5 flex items-center gap-2"
                         >
-                            LOGO
+                            <span className="text-gold-500 text-xs font-bold">{cert.name}</span>
+                            <span className="text-[10px] text-gray-400 hidden sm:inline">{cert.desc}</span>
                         </div>
                     ))}
                 </motion.div>

@@ -39,20 +39,25 @@ export default function Header() {
                 <span className="w-1.5 h-1.5 bg-gold-500 rounded-full" />
             </div>
 
-            {/* Language Selector */}
-            <div className="flex items-center gap-1 border border-white/10 rounded-full p-1 bg-black/40 backdrop-blur-md">
-                {toggleOptions.map((lang) => (
-                    <button
-                        key={lang}
-                        onClick={() => setLanguage(lang)}
-                        className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-300 ${language === lang
-                                ? 'bg-gold-500 text-black shadow-[0_0_10px_rgba(212,175,55,0.4)]'
-                                : 'text-white/50 hover:text-white'
-                            }`}
-                    >
-                        {LANGUAGE_LABELS[lang]}
-                    </button>
-                ))}
+            {/* CTA + Language Selector */}
+            <div className="flex items-center gap-3">
+                <a href="#contact" className="hidden sm:block px-4 py-2 bg-gold-500 text-black text-xs font-bold rounded-full hover:opacity-90 transition-opacity">
+                    Get in Touch
+                </a>
+                <div className="flex items-center gap-1 border border-white/10 rounded-full p-1 bg-black/40 backdrop-blur-md">
+                    {toggleOptions.map((lang) => (
+                        <button
+                            key={lang}
+                            onClick={() => setLanguage(lang)}
+                            className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-300 ${language === lang
+                                    ? 'bg-gold-500 text-black shadow-[0_0_10px_rgba(212,175,55,0.4)]'
+                                    : 'text-white/50 hover:text-white'
+                                }`}
+                        >
+                            {LANGUAGE_LABELS[lang]}
+                        </button>
+                    ))}
+                </div>
             </div>
         </motion.header>
     );

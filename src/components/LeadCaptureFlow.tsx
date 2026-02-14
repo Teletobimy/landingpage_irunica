@@ -11,11 +11,15 @@ interface Props {
     lang?: SupportedLanguage;
 }
 
+const INQUIRY_TYPES = ['Request Samples', 'Get Quote', 'Schedule Call'] as const;
+type InquiryType = typeof INQUIRY_TYPES[number];
+
 export default function LeadCaptureFlow({ companyName, generatedImages, lang = 'en' }: Props) {
     const t = getTranslations(lang).leadCapture;
     const [step, setStep] = useState(1); // 1: Email, 2: Details, 3: Success
     const [email, setEmail] = useState('');
-    const [details, setDetails] = useState({ name: '', phone: '', message: '' });
+    const [inquiryType, setInquiryType] = useState<InquiryType>('Request Samples');
+    const [details, setDetails] = useState({ name: '', company: '', phone: '', message: '' });
 
     // 1. Step 1: Submit Email (Send visual assets)
     const handleStep1 = () => {
@@ -31,6 +35,7 @@ export default function LeadCaptureFlow({ companyName, generatedImages, lang = '
             body: JSON.stringify({
                 email,
                 companyName,
+                inquiryType,
                 imageUrls: generatedImages?.map((img: any) => img.url) || [],
                 step: 1
             }),
@@ -52,6 +57,7 @@ export default function LeadCaptureFlow({ companyName, generatedImages, lang = '
                 email, // Link to previous email
                 ...details,
                 companyName,
+                inquiryType,
                 step: 2
             }),
         });
@@ -72,6 +78,23 @@ export default function LeadCaptureFlow({ companyName, generatedImages, lang = '
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                         >
+                            {/* Inquiry Type Tabs */}
+                            <div className="flex justify-center gap-2 mb-6">
+                                {INQUIRY_TYPES.map((type) => (
+                                    <button
+                                        key={type}
+                                        onClick={() => setInquiryType(type)}
+                                        className={`px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
+                                            inquiryType === type
+                                                ? 'bg-white text-black'
+                                                : 'bg-white/10 text-white/60 hover:bg-white/20'
+                                        }`}
+                                    >
+                                        {type}
+                                    </button>
+                                ))}
+                            </div>
+
                             <h2 className="text-2xl font-bold mb-4 text-center">{t.title}</h2>
                             <p className="text-gray-400 text-center text-sm mb-8">
                                 {t.subtitle.replace('the visual package.', '')} <span className="text-gold-500">{companyName}</span>
@@ -88,7 +111,7 @@ export default function LeadCaptureFlow({ companyName, generatedImages, lang = '
                                     onClick={handleStep1}
                                     className="w-full bg-gold-500 hover:bg-gold-400 text-black font-black py-4 rounded-xl uppercase tracking-widest transition-colors shadow-lg shadow-gold-900/20"
                                 >
-                                    {t.downloadButton}
+                                    Start Your Partnership
                                 </button>
                             </div>
                             <p className="text-center text-[10px] text-neutral-600 mt-4">
@@ -114,6 +137,11 @@ export default function LeadCaptureFlow({ companyName, generatedImages, lang = '
                                     type="text" required placeholder={t.namePlaceholder}
                                     className="w-full bg-black border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-white/30"
                                     onChange={(e) => setDetails({ ...details, name: e.target.value })}
+                                />
+                                <input
+                                    type="text" placeholder="Company Name (optional)"
+                                    className="w-full bg-black border border-white/10 px-6 py-4 rounded-xl text-sm outline-none focus:border-white/30"
+                                    onChange={(e) => setDetails({ ...details, company: e.target.value })}
                                 />
                                 <input
                                     type="tel" required placeholder={t.phonePlaceholder}

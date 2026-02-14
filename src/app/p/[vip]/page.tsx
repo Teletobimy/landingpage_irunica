@@ -11,6 +11,7 @@ import AnalysisSection from '@/components/AnalysisSection';
 import InfluencerStore from '@/components/modules/InfluencerStore';
 import LeadCaptureFlow from '@/components/LeadCaptureFlow';
 import Footer from '@/components/Footer';
+import StickyCTA from '@/components/StickyCTA';
 import { getLatestTrends, getTranslatedTrendData, getTranslatedColorNames } from '@/lib/fetch-latest';
 import { getModulesForIndustry, ModuleName } from '@/config/module-registry';
 import { CompanyClassification } from '@/types/company';
@@ -182,6 +183,15 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
             {/* Why Irunica - Differentiators */}
             <WhyIrunicaComponent lang={language} />
 
+            {/* Mid-page CTA */}
+            <section className="py-16 bg-[#C8A97E] text-black text-center px-6">
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Launch Your K-Beauty Line?</h3>
+                <p className="text-sm mb-8 opacity-80">From formulation to your shelves in just 14 days</p>
+                <a href="#contact" className="inline-block px-10 py-4 bg-black text-white rounded-full font-bold hover:bg-neutral-800 transition-colors">
+                    Get Started
+                </a>
+            </section>
+
             {/* Process Timeline */}
             <ProcessTimelineComponent lang={language} />
 
@@ -208,6 +218,9 @@ async function VIPPageContent({ vipId }: { vipId: string }) {
                     vipId={vipId}
                 />
             </React.Suspense>
+
+            {/* Sticky CTA - appears after scrolling past AnalysisSection */}
+            <StickyCTA />
         </>
     );
 }

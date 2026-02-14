@@ -71,11 +71,21 @@ export default function AnalysisSection({ companyName, analysisData, lang = 'en'
                     </div>
                 </div>
 
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-8 justify-center">
+                    <a href="#contact" className="px-8 py-4 bg-black text-white rounded-full font-bold text-sm hover:bg-neutral-800 transition-colors text-center">
+                        Request Free Samples
+                    </a>
+                    <a href="#contact" className="px-8 py-4 border border-black text-black rounded-full font-bold text-sm hover:bg-black hover:text-white transition-colors text-center">
+                        Schedule a Call
+                    </a>
+                </div>
+
                 {/* Bottom Arrow */}
                 <motion.div
                     animate={{ y: [0, 10, 0] }}
                     transition={{ repeat: Infinity, duration: 2 }}
-                    className="flex justify-center pt-10"
+                    className="flex justify-center pt-6"
                 >
                     <span className="text-[10px] tracking-[0.5em] text-gray-600">{t.scrollToView}</span>
                 </motion.div>
